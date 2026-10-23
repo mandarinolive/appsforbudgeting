@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import { APPS, ACTIVE, CHECKED } from '../data/apps';
+import { breadcrumbs, itemList } from '../lib';
+const rows = [...ACTIVE].sort((a, b) => a.name.localeCompare(b.name));
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Compare apps', path: '/compare' }]),
+  itemList('Budgeting apps compared', rows),
+];
+const gone = APPS.filter((a) => a.status === 'discontinued');
+---
+<Base title={`Compare ${ACTIVE.length} budgeting apps: prices, platforms, bank sync (${CHECKED})`} description={`Side-by-side table of ${ACTIVE.length} budgeting apps: price, free plan, platforms, bank sync and budgeting style, checked on each official site in ${CHECKED}.`} jsonLd={jsonLd}>
+  <h1>Compare budgeting apps</h1>
+  <p class="lede">{ACTIVE.length} apps side by side, in alphabetical order. No scores: just the facts we checked on each official site in {CHECKED}.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>App</th><th>Price</th><th>Platforms</th><th>Bank sync</th><th>Style</th></tr></thead>
+      <tbody>
+        {rows.map((a) => (
+          <tr>
+            <td><a href={`/apps/${a.slug}`}>{a.name.replace(/ \(.*\)$/, '')}</a></td>
+            <td>{a.priceShort}</td>
+            <td>{a.platforms.join(', ')}</td>
+            <td>{a.bankSync === 'n/a' ? 'Not stated' : a.bankSync}</td>
+            <td>{a.style}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {gone.length > 0 && <p class="meta">Discontinued: {gone.map((g) => <a href={`/apps/${g.slug}`}>{g.name}</a>)} (accounts closed May 9, 2025).</p>}
+  <p>Shopping as a couple or a family? Start with <a href="/best-for-families">budgeting apps for families with young kids</a>.</p>
+</Base>

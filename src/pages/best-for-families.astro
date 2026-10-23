@@ -1,0 +1,70 @@
+---
+import Base from '../layouts/Base.astro';
+import { bySlug, CHECKED } from '../data/apps';
+import { breadcrumbs, itemList, faqLd } from '../lib';
+
+const groups = [
+  {
+    id: 'share', q: 'Which budgeting apps let two partners share one budget?',
+    intro: 'These apps say on their own sites that a partner or household can use the same budget:',
+    slugs: ['monarch', 'ynab', 'goodbudget', 'honeydue', 'quicken-simplifi', 'spendee', 'buddy'],
+  },
+  {
+    id: 'free', q: 'What are the free budgeting apps for families?',
+    intro: 'These have a free version or are free outright (paid upgrades may exist):',
+    slugs: ['everydollar', 'goodbudget', 'honeydue', 'rocket-money', 'empower', 'actual-budget'],
+  },
+  {
+    id: 'irregular', q: 'Which apps help plan for irregular kid costs like childcare, camps and birthdays?',
+    intro: 'Zero-based and envelope apps make you set money aside before the bill arrives:',
+    slugs: ['ynab', 'goodbudget', 'everydollar', 'actual-budget'],
+  },
+  {
+    id: 'long-view', q: 'What if we care more about savings, college funds and net worth?',
+    intro: 'These track investments and net worth alongside (or instead of) a monthly budget:',
+    slugs: ['monarch', 'empower', 'copilot-money'],
+  },
+  {
+    id: 'sheets', q: 'One of us loves spreadsheets. Is there an app for that?',
+    intro: 'Tiller feeds bank transactions into Google Sheets or Excel, so the spreadsheet partner keeps full control:',
+    slugs: ['tiller'],
+  },
+].map((g) => ({ ...g, apps: g.slugs.map(bySlug) }));
+
+const line = (a: ReturnType<typeof bySlug>) => `${a.name.replace(/ \(.*\)$/, '')} (${a.priceShort})`;
+const faq = [
+  ...groups.map((g) => ({ q: g.q, a: `${g.intro} ${g.apps.map(line).join('; ')}.` })),
+  { q: 'What happened to Zeta, the couples banking app?', a: 'Zeta shut down and closed all accounts on May 9, 2025, and its team joined Acorns. For a shared budget, look at Monarch, Honeydue or Goodbudget instead.' },
+];
+const all = [...new Map(groups.flatMap((g) => g.apps).map((a) => [a.slug, a])).values()];
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Best for families', path: '/best-for-families' }]),
+  itemList('Budgeting apps for couples and families with young kids', all),
+  faqLd(faq),
+];
+---
+<Base title={`Best budgeting apps for families and couples with young kids (${CHECKED})`} description="Which budgeting apps let partners share one budget, which are free, and which help plan for childcare and other irregular kid costs. Prices checked Oct 2026." jsonLd={jsonLd}>
+  <h1>Budgeting apps for families and couples with young kids</h1>
+  <p class="lede">Kids add new, lumpy costs and a second person to agree with. Here’s which apps fit that, grouped by what a family usually needs.</p>
+  <p class="notice small">How we picked: each app’s published features and prices, checked on its official site in {CHECKED}. We haven’t finished hands-on testing yet, and there are no paid placements or affiliate links.</p>
+
+  {groups.map((g) => (
+    <section aria-labelledby={g.id}>
+      <h2 id={g.id}>{g.q}</h2>
+      <p>{g.intro}</p>
+      <ul class="list">
+        {g.apps.map((a) => (
+          <li>
+            <a class="name" href={`/apps/${a.slug}`}>{a.name.replace(/ \(.*\)$/, '')}</a><span class="tag">{a.priceShort}</span><br />
+            <span class="muted">{g.id === 'share' && a.sharing ? a.sharing : a.families ?? a.summary}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <h2 id="zeta">What happened to Zeta, the couples banking app?</h2>
+  <p>Zeta shut down and closed all accounts on May 9, 2025, and its team joined Acorns. Many older “best apps for couples” lists still recommend it. <a href="/apps/zeta">More on Zeta</a>.</p>
+
+  <p>Want everything side by side? <a href="/compare">Compare all apps</a>.</p>
+</Base>

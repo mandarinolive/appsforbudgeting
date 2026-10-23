@@ -1,0 +1,13 @@
+---
+import type { CollectionEntry } from 'astro:content';
+const { posts } = Astro.props as { posts: CollectionEntry<'blog'>[] };
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+---
+<ul class="list">
+  {posts.map((p) => (
+    <li>
+      <a class="name" href={`/blog/${p.id}`}>{p.data.title}</a><br />
+      <span class="meta"><time datetime={p.data.pubDate.toISOString()}>{fmt(p.data.pubDate)}</time> · {p.data.description}</span>
+    </li>
+  ))}
+</ul>

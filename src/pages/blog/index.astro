@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import PostList from '../../components/PostList.astro';
+import { SITE } from '../../data/site';
+import { getPosts, breadcrumbs, orgLd } from '../../lib';
+const posts = await getPosts();
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    '@id': `${SITE.url}/blog#blog`,
+    url: `${SITE.url}/blog`,
+    name: `${SITE.name} blog`,
+    publisher: orgLd,
+    blogPost: posts.map((p) => ({ '@type': 'BlogPosting', headline: p.data.title, url: `${SITE.url}/blog/${p.id}`, datePublished: p.data.pubDate.toISOString() })),
+  },
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Blog', path: '/blog' }]),
+];
+---
+<Base title="Blog" description="Notes on budgeting apps for families and couples: price changes, comparisons and how-tos." jsonLd={jsonLd}>
+  <h1>Blog</h1>
+  <p class="muted">Notes on budgeting apps for families and couples. <a href="/rss.xml">RSS</a></p>
+  <PostList posts={posts} />
+</Base>

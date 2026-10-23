@@ -1,0 +1,17 @@
+{
+  "name": "appsforbudgeting",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/bundle-worker.mjs",
+    "preview": "astro preview",
+    "deploy": "npm run build && npx wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^5.18.2"
+  }
+}

@@ -1,0 +1,12 @@
+// Deploy: `npm run build && npx wrangler deploy` (needs `wrangler login` once),
+// or via the Cloudflare connector with build/deploy-via-connector.js (see README).
+{
+  "name": "appsforbudgeting",
+  "main": "build/worker.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "appsforbudgeting.com", "custom_domain": true },
+    { "pattern": "www.appsforbudgeting.com", "custom_domain": true }
+  ]
+}

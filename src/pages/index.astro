@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import { ACTIVE, CHECKED } from '../data/apps';
+import { websiteLd, itemList, getPosts } from '../lib';
+const apps = [...ACTIVE].sort((a, b) => a.name.localeCompare(b.name));
+const posts = (await getPosts()).slice(0, 3);
+const jsonLd = [websiteLd, itemList('Budgeting app directory', apps)];
+---
+<Base jsonLd={jsonLd}>
+  <h1>Find a budgeting app that works for your household</h1>
+  <p class="lede">An independent directory of {ACTIVE.length} budgeting apps, with prices checked on each official site in {CHECKED}. We pay extra attention to what matters for couples and families with young kids: sharing a budget, free options, and planning for childcare and other irregular costs.</p>
+  <p><a class="btn" href="/best-for-families">Best for families →</a> &nbsp; <a href="/compare">Compare all {ACTIVE.length} apps</a></p>
+
+  <h2>All apps</h2>
+  <ul class="grid">
+    {apps.map((a) => (
+      <li>
+        <a class="name" href={`/apps/${a.slug}`}>{a.name.replace(/ \(.*\)$/, '')}</a>
+        <div class="small muted">{a.priceShort}</div>
+        <div class="small">{a.summary}</div>
+      </li>
+    ))}
+  </ul>
+
+  <h2>How this site works</h2>
+  <p>No star ratings, no made-up user counts, no sponsored rankings. Each app page says what the app does, what it costs according to its own website, who it suits, and where it falls short. When we haven’t verified something, we say so.</p>
+  {posts.length > 0 && (
+    <>
+      <h2>From the blog</h2>
+      <ul>{posts.map((p) => <li><a href={`/blog/${p.id}`}>{p.data.title}</a></li>)}</ul>
+    </>
+  )}
+</Base>

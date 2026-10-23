@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro';
+import { APPS, CHECKED, CHECKED_ISO, type App } from '../../data/apps';
+import { breadcrumbs, faqLd, abs } from '../../lib';
+
+export function getStaticPaths() {
+  return APPS.map((app) => ({ params: { slug: app.slug }, props: { app } }));
+}
+const { app } = Astro.props as { app: App };
+const gone = app.status === 'discontinued';
+const shortName = app.name.replace(/ \(.*\)$/, '');
+const sync = app.bankSync === 'n/a' ? null : app.bankSync;
+const syncText: Record<string, string> = {
+  Yes: `Yes. ${shortName} connects to bank and card accounts to import transactions automatically.`,
+  Optional: `Optionally. You can connect accounts or enter transactions by hand.`,
+  'Paid plan': `Only on a paid plan. The free or base plan uses manual entry.`,
+  No: `No. You enter transactions yourself.`,
+};
+const faq = gone
+  ? [
+      { q: `Is ${shortName} still available?`, a: `No. ${app.pricing} ${app.summary}` },
+      { q: `What can I use instead of ${shortName}?`, a: app.families ?? '' },
+    ]
+  : [
+      { q: `How much does ${shortName} cost?`, a: `${app.pricing} (Checked on the official site, ${CHECKED}.)` },
+      ...(sync ? [{ q: `Does ${shortName} connect to my bank?`, a: syncText[sync] }] : []),
+      ...(app.sharing ? [{ q: `Can I share ${shortName} with my partner?`, a: app.sharing }] : []),
+      ...(app.platforms.length ? [{ q: `What devices does ${shortName} work on?`, a: `${app.platforms.join(', ')}.` }] : []),
+    ];
+const description = gone
+  ? `${shortName} has been discontinued. What happened, and shared-budget alternatives for couples and families.`
+  : `${shortName}: what it does, pricing as of ${CHECKED} (${app.priceShort}), who it’s for, pros and cons, and how it works for couples and families.`;
+const jsonLd = [
+  breadcrumbs([
+    { name: 'Home', path: '/' },
+    { name: 'Compare apps', path: '/compare' },
+    { name: shortName, path: `/apps/${app.slug}` },
+  ]),
+  ...(gone
+    ? []
+    : [{
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: shortName,
+        url: app.url,
+        applicationCategory: 'FinanceApplication',
+        operatingSystem: app.platforms.join(', '),
+        description: app.summary,
+        mainEntityOfPage: abs(`/apps/${app.slug}`),
+      }]),
+  faqLd(faq),
+];
+---
+<Base title={gone ? `${shortName} (discontinued)` : `${shortName} review: pricing, pros and cons (${CHECKED})`} description={description} jsonLd={jsonLd}>
+  <p class="meta"><a href="/compare">All apps</a> › {shortName}</p>
+  <h1>{shortName}{gone && ' (discontinued)'}</h1>
+  <p class="lede">{app.summary}</p>
+  {gone && <p class="notice">{app.pricing} Source: <a href={app.source}>Acorns help center</a>.</p>}
+
+  {!gone && (
+    <dl class="facts">
+      <dt>Price</dt><dd>{app.pricing}</dd>
+      <dt>Platforms</dt><dd>{app.platforms.join(', ')}</dd>
+      <dt>Bank sync</dt><dd>{sync ?? 'Not stated on the website'}</dd>
+      <dt>Style</dt><dd>{app.style}</dd>
+      <dt>Good for</dt><dd>{app.bestFor.join(', ')}</dd>
+      <dt>Checked</dt><dd><time datetime={CHECKED_ISO}>{CHECKED}</time> on <a href={app.source} rel="nofollow">the official site</a></dd>
+    </dl>
+  )}
+
+  {app.families && (
+    <>
+      <h2>Is {shortName} good for couples and families?</h2>
+      <p>{app.families}</p>
+      {app.sharing && !gone && <p>{app.sharing}</p>}
+    </>
+  )}
+
+  {app.pros.length > 0 && (
+    <>
+      <h2>Pros</h2>
+      <ul>{app.pros.map((p) => <li>{p}</li>)}</ul>
+    </>
+  )}
+  {!gone && (
+    <>
+      <h2>Cons</h2>
+      <ul>{app.cons.map((p) => <li>{p}</li>)}</ul>
+    </>
+  )}
+
+  <h2>Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  {!gone && <p><a class="btn" href={app.url} rel="nofollow noopener">Visit {shortName} ↗</a></p>}
+  <p class="meta">We have no affiliate relationship with {shortName}. Prices change; check the official site before you subscribe. Spotted an error? See <a href="/about">About</a>.</p>
+</Base>
