@@ -1,4 +1,5 @@
 ---
+import ReferralCta from '../components/ReferralCta.astro';
 import Base from '../layouts/Base.astro';
 import { bySlug, CHECKED } from '../data/apps';
 import { breadcrumbs, itemList, faqLd } from '../lib';
@@ -46,7 +47,7 @@ const jsonLd = [
 <Base title={`Best budgeting apps for families and couples with young kids (${CHECKED})`} description="Which budgeting apps let partners share one budget, which are free, and which help plan for childcare and other irregular kid costs. Prices checked Oct 2026." jsonLd={jsonLd}>
   <h1>Budgeting apps for families and couples with young kids</h1>
   <p class="lede">Kids add new, lumpy costs and a second person to agree with. Here’s which apps fit that, grouped by what a family usually needs.</p>
-  <p class="notice small">How we picked: each app’s published features and prices, checked on its official site in {CHECKED}. We haven’t finished hands-on testing yet, and there are no paid placements or affiliate links.</p>
+  <p class="notice small">How we picked: each app’s published features and prices, checked on its official site in {CHECKED}. We haven’t finished hands-on testing yet, and there are no paid placements. Some apps have referral links, which are labeled and don’t affect which apps we list or what we say.</p>
 
   {groups.map((g) => (
     <section aria-labelledby={g.id}>
@@ -57,6 +58,7 @@ const jsonLd = [
           <li>
             <a class="name" href={`/apps/${a.slug}`}>{a.name.replace(/ \(.*\)$/, '')}</a><span class="tag">{a.priceShort}</span><br />
             <span class="muted">{g.id === 'share' && a.sharing ? a.sharing : a.families ?? a.summary}</span>
+            {a.referral && <ReferralCta app={a} compact />}
           </li>
         ))}
       </ul>

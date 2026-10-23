@@ -21,6 +21,8 @@ export type App = {
   sharing?: string; // verified partner/household sharing statement
   pros: string[];
   cons: string[];
+  // Referral/affiliate link. Rendered with rel="sponsored noopener" + a visible disclosure (src/components/ReferralCta.astro).
+  referral?: { url: string; cta: string; terms: string; source: string };
 };
 
 export const APPS: App[] = [
@@ -45,6 +47,12 @@ export const APPS: App[] = [
     families: 'A common pick for couples: one shared view of accounts, budgets and goals like a college fund or a bigger home.',
     pros: ['Budgets, investments and net worth in one app', 'Flexible or category budgeting', 'Household members can share one account'],
     cons: ['No free plan after the trial', 'Relies on account connections, which can occasionally break'],
+    referral: {
+      url: 'https://monarch.com/referral/a3psi1mkn7?r_source=copy',
+      cta: 'Get 50% off your first year of Monarch',
+      terms: 'Annual Core plan, signed up and billed on the web (not via the App Store or Google Play, and not Plus or monthly plans).',
+      source: 'https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards',
+    },
   },
   {
     slug: 'copilot-money', name: 'Copilot Money', url: 'https://www.copilot.money', source: 'https://www.copilot.money/',

@@ -1,0 +1,9 @@
+---
+import type { App } from '../data/apps';
+const { app, compact = false } = Astro.props as { app: App; compact?: boolean };
+const r = app.referral!;
+---
+<div class={compact ? 'referral compact' : 'referral'}>
+  <a class={compact ? 'small' : 'btn'} href={r.url} rel="sponsored noopener" target="_blank">{r.cta} ↗</a>
+  <p class="meta">{r.terms} <a href={r.source} rel="nofollow noopener" target="_blank">Offer terms</a>. This is a referral link. If you sign up, we may earn a reward, at no cost to you.</p>
+</div>

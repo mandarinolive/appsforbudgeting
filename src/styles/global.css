@@ -64,3 +64,7 @@ dl.facts dd { margin: 0; }
 .grid li { border: 1px solid var(--rule); border-radius: 8px; padding: 0.75rem; }
 .grid .name { font-weight: 600; font-family: ui-sans-serif, system-ui, sans-serif; }
 .small { font-size: 0.85rem; }
+.referral { margin: 1rem 0 0.5rem; }
+.referral .meta { margin: 0.35rem 0 0; }
+.referral.compact { margin: 0.25rem 0 0; }
+.referral.compact .meta { font-size: 0.75rem; }

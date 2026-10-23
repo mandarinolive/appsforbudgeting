@@ -8,7 +8,7 @@ export async function GET() {
 
 > ${SITE.description}
 
-Independent directory of budgeting apps. Prices and features come from each app's official site or help center, checked ${CHECKED}. No ratings, no paid placements, no affiliate links (as of ${CHECKED}).
+Independent directory of budgeting apps. Prices and features come from each app's official site or help center, checked ${CHECKED}. No ratings, no paid placements. Some links are labeled referral links (currently Monarch Money); they don't affect listings or copy.
 
 ## Key pages
 

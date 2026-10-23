@@ -1,4 +1,5 @@
 ---
+import ReferralCta from '../../components/ReferralCta.astro';
 import Base from '../../layouts/Base.astro';
 import { APPS, CHECKED, CHECKED_ISO, type App } from '../../data/apps';
 import { breadcrumbs, faqLd, abs } from '../../lib';
@@ -92,6 +93,7 @@ const jsonLd = [
   <h2>Questions</h2>
   {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
 
-  {!gone && <p><a class="btn" href={app.url} rel="nofollow noopener">Visit {shortName} ↗</a></p>}
-  <p class="meta">We have no affiliate relationship with {shortName}. Prices change; check the official site before you subscribe. Spotted an error? See <a href="/about">About</a>.</p>
+  {!gone && app.referral && <ReferralCta app={app} />}
+  {!gone && <p><a class={app.referral ? '' : 'btn'} href={app.url} rel="nofollow noopener">{app.referral ? `Or visit ${shortName}’s official site` : `Visit ${shortName}`} ↗</a></p>}
+  <p class="meta">{app.referral ? <>Our link to {shortName} above is a referral link; see our <a href="/about#disclosure">disclosure</a>.</> : <>We have no affiliate relationship with {shortName}.</>} Prices change; check the official site before you subscribe. Spotted an error? See <a href="/about">About</a>.</p>
 </Base>
