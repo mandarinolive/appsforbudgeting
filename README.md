@@ -59,3 +59,7 @@ Per-page title/description/canonical, Open Graph + Twitter cards (`public/og.png
 ItemList on home/compare/families, SoftwareApplication + FAQPage + BreadcrumbList on app pages, FAQPage on the families hub,
 Blog/BlogPosting), `/sitemap-index.xml`, `/robots.txt` (explicitly allows AI crawlers), `/rss.xml`, `/llms.txt`, no client JS
 apart from the analytics beacon.
+
+### Deploy log
+- Oct 22 2026, 10:59 PM PT: removed the meta post `/blog/why-we-rebuilt`; Blog nav/footer, `/blog` index and `/rss.xml` hidden while there are no posts (all 301 → `/` via `REDIRECTS` in `scripts/bundle-worker.mjs`). **Live version `b5be8dd8-0694-48a8-9a28-e3453a178a17`** (deployment `22418509-12f9-4c7b-a1d6-b27bb7e3dbaa`). Previous version `5583cba7-00a1-4962-a77e-da7f152b998b` is the rollback.
+- Blog rule: only reader-useful posts answering specific long-tail questions; never meta/behind-the-scenes posts. When the first real post lands, restore `src/pages/blog/index.astro` and `src/pages/rss.xml.ts` from git history, re-add the nav/RSS links, and drop the `/blog` and `/rss.xml` redirects.

@@ -52,6 +52,7 @@ function respond(key, req, status = 200) {
   const body = req.method === 'HEAD' ? null : f.b ? bin(f.c) : f.c;
   return new Response(body, { status, headers: h });
 }
+const REDIRECTS = { '/blog/why-we-rebuilt': '/', '/blog': '/', '/rss.xml': '/' };
 export default {
   async fetch(req) {
     const url = new URL(req.url);
@@ -64,6 +65,8 @@ export default {
     try { p = decodeURIComponent(url.pathname); } catch { return respond('/404.html', req, 404); }
     // Never serve dotfiles or dot-directories (/.git, /.env, ...), whatever the build contains.
     if (/(^|\\/)\\./.test(p)) return respond('/404.html', req, 404);
+    const rk = p.length > 1 ? p.replace(/\\/+$/, '') : p;
+    if (REDIRECTS[rk]) { url.pathname = REDIRECTS[rk]; return Response.redirect(url.toString(), 301); }
     if (p.length > 1 && p.endsWith('/')) { url.pathname = p.replace(/\\/+$/, ''); return Response.redirect(url.toString(), 301); }
     if (p.endsWith('.html')) {
       const clean = p === '/index.html' ? '/' : p.slice(0, -5);

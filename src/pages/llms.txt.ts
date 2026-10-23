@@ -20,9 +20,6 @@ Independent directory of budgeting apps. Prices and features come from each app'
 
 ${APPS.map((a) => `- [${a.name}](${SITE.url}/apps/${a.slug})${a.status === 'discontinued' ? ' (discontinued)' : ''}: ${a.summary} Pricing: ${a.pricing}${a.sharing ? ` Sharing: ${a.sharing}` : ''}`).join('\n')}
 
-## Blog
-
-${posts.map((p) => `- [${p.data.title}](${SITE.url}/blog/${p.id}): ${p.data.description}`).join('\n')}
-`;
+${posts.length ? `## Guides\n\n${posts.map((p) => `- [${p.data.title}](${SITE.url}/blog/${p.id}): ${p.data.description}`).join('\n')}\n` : ''}`;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 }

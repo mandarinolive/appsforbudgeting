@@ -27,7 +27,6 @@ const ogImage = new URL('/og.png', SITE.url).href;
     {noindex && <meta name="robots" content="noindex" />}
     <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} blog`} href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="text/plain" title="llms.txt" href="/llms.txt" />
     <meta property="og:type" content={type} />
@@ -53,7 +52,6 @@ const ogImage = new URL('/og.png', SITE.url).href;
       <nav aria-label="Main">
         <a href="/best-for-families">For families</a>
         <a href="/compare">Compare all</a>
-        <a href="/blog">Blog</a>
         <a href="/about">About</a>
       </nav>
     </header>
@@ -61,7 +59,7 @@ const ogImage = new URL('/og.png', SITE.url).href;
       <slot />
     </main>
     <footer class="site-footer">
-      <p><a href="/compare">Compare all apps</a> · <a href="/best-for-families">Best for families</a> · <a href="/about">About &amp; disclosure</a> · <a href="/rss.xml">RSS</a></p>
+      <p><a href="/compare">Compare all apps</a> · <a href="/best-for-families">Best for families</a> · <a href="/about">About &amp; disclosure</a></p>
       <p class="muted">Independent. No affiliate links today. Prices checked on official sites, Oct 2026. Not financial advice.</p>
       <p class="muted">© {new Date().getFullYear()} {SITE.name}</p>
     </footer>
