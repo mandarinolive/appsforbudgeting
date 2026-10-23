@@ -42,6 +42,8 @@ To roll back, either:
   ```
 - Wrangler: `npx wrangler rollback d6f2d7a5-e73c-4051-80db-56b66e0e1954 --name appsforbudgeting`
 
+v1 went live Oct 22 2026, 10:07 PM PT as version `5583cba7-00a1-4962-a77e-da7f152b998b` (deployment `3ac064e6-914b-4e72-9f12-881624cc86d9`, git `ebd64f0`+).
+
 Note the old version also served `/.git/*` publicly; rolling back brings that back.
 
 ## Analytics
