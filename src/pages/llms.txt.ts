@@ -13,6 +13,7 @@ Independent directory of budgeting apps. Prices and features come from each app'
 ## Key pages
 
 - [Best budgeting apps for families and couples with young kids](${SITE.url}/best-for-families): shared budgets, free options, planning for childcare
+- [Mint alternatives](${SITE.url}/mint-alternatives): what to use now that Mint is gone, free options, Credit Karma
 - [Compare all apps](${SITE.url}/compare): price, platforms, bank sync, style
 - [About and disclosure](${SITE.url}/about)
 

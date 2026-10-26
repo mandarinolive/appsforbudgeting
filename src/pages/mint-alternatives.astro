@@ -1,0 +1,74 @@
+---
+import ReferralCta from '../components/ReferralCta.astro';
+import Base from '../layouts/Base.astro';
+import { bySlug, CHECKED } from '../data/apps';
+import { breadcrumbs, itemList, faqLd } from '../lib';
+
+// Mint facts: https://mint.intuit.com/ and https://support.creditkarma.com/s/article/Intuit-Mint-and-Credit-Karma (checked Oct 26, 2026).
+const groups = [
+  {
+    id: 'closest', q: 'What is the closest replacement for Mint?',
+    intro: 'If you liked Mint for automatic bank syncing plus spending categories and budgets in one app, these paid apps are the closest match:',
+    slugs: ['monarch', 'quicken-simplifi', 'copilot-money'],
+  },
+  {
+    id: 'free', q: 'Is there a free Mint alternative that still syncs with my bank?',
+    intro: 'Mint was free. These have a free version and list automatic account syncing (paid upgrades exist, and some features sit behind them):',
+    slugs: ['empower', 'rocket-money', 'honeydue'],
+  },
+  {
+    id: 'budget-first', q: 'I want a stricter budget than Mint gave me. What should I try?',
+    intro: 'Mint mostly tracked what you already spent. Zero-based and envelope apps have you plan the money before you spend it:',
+    slugs: ['ynab', 'everydollar', 'goodbudget'],
+  },
+  {
+    id: 'sheets', q: 'Can I get Mint-style syncing into a spreadsheet?',
+    intro: 'Tiller pulls bank transactions into Google Sheets or Excel, so you keep your own categories and formulas:',
+    slugs: ['tiller'],
+  },
+].map((g) => ({ ...g, apps: g.slugs.map(bySlug) }));
+
+const short = (a: ReturnType<typeof bySlug>) => a.name.replace(/ \(.*\)$/, '');
+const mintFacts = 'Intuit shut down Mint in 2024 and moved its popular features to Credit Karma. Moving a Mint account to Credit Karma stopped being an option on May 3, 2024, so former Mint users either use Credit Karma or switch to another app.';
+const ckFacts = 'Intuit says Credit Karma lets you link accounts from more than 17,000 financial institutions, review transactions, track spending by category, get monthly insights and track net worth. Intuit’s page doesn’t mention setting monthly category budgets, which is what many Mint users miss.';
+const faq = [
+  { q: 'What happened to Mint?', a: mintFacts },
+  { q: 'Is Credit Karma a good replacement for Mint?', a: ckFacts },
+  ...groups.map((g) => ({ q: g.q, a: `${g.intro} ${g.apps.map((a) => `${short(a)} (${a.priceShort})`).join('; ')}.` })),
+];
+const all = [...new Map(groups.flatMap((g) => g.apps).map((a) => [a.slug, a])).values()];
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Mint alternatives', path: '/mint-alternatives' }]),
+  itemList('Mint alternatives', all),
+  faqLd(faq),
+];
+---
+<Base title={`Best Mint alternatives after Mint shut down (${CHECKED})`} description="Mint is gone. Here are the closest replacements, the free options that still sync with your bank, and what Credit Karma does and doesn't do. Prices checked Oct 2026." jsonLd={jsonLd}>
+  <h1>Mint alternatives: what to use now that Mint is gone</h1>
+  <p class="lede">{mintFacts}</p>
+  <p class="notice small">How we picked: each app’s published features and prices, checked on its official site in {CHECKED}. We haven’t finished hands-on testing yet, and there are no paid placements. Some apps have referral links, which are labeled and don’t affect which apps we list or what we say.</p>
+
+  <h2 id="credit-karma">Is Credit Karma a good replacement for Mint?</h2>
+  <p>{ckFacts} If you only used Mint to see your accounts and spending in one place, Credit Karma may be enough. If you used Mint’s budgets, pick one of the apps below. Sources: <a href="https://mint.intuit.com/" rel="nofollow">Intuit’s Mint page</a> and <a href="https://support.creditkarma.com/s/article/Intuit-Mint-and-Credit-Karma" rel="nofollow">Credit Karma’s help article</a>.</p>
+
+  {groups.map((g) => (
+    <section aria-labelledby={g.id}>
+      <h2 id={g.id}>{g.q}</h2>
+      <p>{g.intro}</p>
+      <ul class="list">
+        {g.apps.map((a) => (
+          <li>
+            <a class="name" href={`/apps/${a.slug}`}>{short(a)}</a><span class="tag">{a.priceShort}</span><br />
+            <span class="muted">{a.summary} {a.pricing}</span>
+            {a.referral && <ReferralCta app={a} compact />}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+
+  <h2 id="export">Can I still download my old Mint data?</h2>
+  <p>Credit Karma’s help article says to sign in at accounts.intuit.com and open “Data &amp; Privacy” to download your Mint data. Most of the apps above can import transactions from a CSV file, so check the app’s help center before you start.</p>
+
+  <p>Budgeting as a couple or with kids? See <a href="/best-for-families">budgeting apps for families</a>, or <a href="/compare">compare all apps</a> side by side.</p>
+</Base>
