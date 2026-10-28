@@ -1,0 +1,91 @@
+---
+import ReferralCta from '../components/ReferralCta.astro';
+import Base from '../layouts/Base.astro';
+import { bySlug } from '../data/apps';
+import { breadcrumbs, faqLd, itemList } from '../lib';
+
+// Facts re-checked on official pages Oct 27, 2026:
+// https://www.copilot.money/pricing, https://www.copilot.money/faq, https://help.copilot.money/en/articles/11157550-quick-start-guide,
+// https://www.monarch.com/pricing, https://www.monarch.com/for-couples, https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards
+const CHECKED = 'Oct 27, 2026';
+const monarch = bySlug('monarch');
+const copilot = bySlug('copilot-money');
+
+const rows = [
+  ['Price', '$109 a year (labeled a limited-time price, down from $119) or $18 a month.', '$99.99 a year or $14.99 a month (Core). Plus is $199.99 a year.'],
+  ['Free trial', '1 month. You choose a plan to start, and it renews unless you turn it off.', '7 days. A payment method is required.'],
+  ['Devices', 'iPhone, iPad, Mac and web. No Android app.', 'Web, iPhone and Android.'],
+  ['Sharing', 'Up to 3 people on one account at no extra cost, each with full access.', 'Household members join free, each with their own login. Everyone sees all accounts and transactions.'],
+  ['Budgeting', 'Category budgets with rollovers. First budget built from your past spending.', 'Flex or category budgets with rollovers. First budget built from a six-month average.'],
+  ['Extras', 'Amazon and Venmo integrations, direct Apple Card connection, real estate via Zillow or RentCast.', 'Save Up goals, debt payoff view; Plus adds forecasting and small-business tracking.'],
+];
+
+const faq = [
+  { q: 'Is Copilot Money cheaper than Monarch?', a: 'Not right now. On Oct 27, 2026, Copilot showed $109 a year (a limited-time price, down from $119) or $18 a month. Monarch Core was $99.99 a year or $14.99 a month. Many older comparisons list Copilot at $95 a year; that is out of date.' },
+  { q: 'Does Copilot Money work on Android?', a: 'No. Copilot lists iPhone, iPad, Mac and web. If anyone in your household uses Android, they would need the web app, or you could pick Monarch, which has an Android app.' },
+  { q: 'Can my partner use Copilot or Monarch with me?', a: 'Yes, both at no extra cost. Copilot allows up to 3 people on one account, and each gets full access. Monarch lets you invite household members under one subscription, each with their own login, and everyone sees all connected accounts.' },
+  { q: 'Which has the longer free trial?', a: 'Copilot: 1 month. Monarch: 7 days. Both ask you to choose a plan or add a payment method first, so set a reminder before the trial ends.' },
+  { q: 'Is Copilot Money the same as Microsoft Copilot?', a: 'No. Copilot Money says it is an independent personal finance app with no affiliation with Microsoft.' },
+];
+
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Compare apps', path: '/compare' }, { name: 'Copilot vs Monarch', path: '/copilot-vs-monarch' }]),
+  itemList('Copilot Money vs Monarch', [copilot, monarch]),
+  faqLd(faq),
+];
+---
+<Base title="Copilot Money vs Monarch: price, Android and sharing (Oct 2026)" description="Copilot Money vs Monarch, checked on both official sites Oct 27, 2026: Copilot is now $109 a year, Monarch $99.99. Trials, devices, partner sharing and who each fits." jsonLd={jsonLd}>
+  <p class="meta"><a href="/compare">All apps</a> › Copilot vs Monarch</p>
+  <h1>Copilot Money vs Monarch: which one for your household?</h1>
+  <p class="lede">If everyone in your house uses an iPhone or a Mac and you want a polished tracker that mostly categorizes itself, Copilot is built for that. If anyone uses Android, or you want each partner to have their own login, Monarch is the simpler choice. Monarch is also about $9 a year cheaper at today’s prices.</p>
+  <p class="notice small">How we compared: each company’s own pricing, FAQ and help pages, checked {CHECKED}. We haven’t finished hands-on testing, so nothing here comes from our own use. Our Monarch link is a referral link (labeled below). We have no relationship with Copilot.</p>
+
+  <h2 id="table">Copilot vs Monarch at a glance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Copilot Money</th><th>Monarch</th></tr></thead>
+      <tbody>{rows.map(([k, c, m]) => <tr><th scope="row">{k}</th><td>{c}</td><td>{m}</td></tr>)}</tbody>
+    </table>
+  </div>
+
+  <h2 id="price">Price: Copilot now costs a little more than Monarch</h2>
+  <p>Many comparisons (and our own listing as of Oct 22, 2026) say Copilot costs $95 a year. On {CHECKED}, Copilot’s own pricing showed $109 a year, labeled a limited-time offer down from $119, or $18 a month. Its App Store listing showed the same $109 yearly and $18 monthly options. Monarch Core was $99.99 a year or $14.99 a month.</p>
+  <p>Over a year on monthly billing, that’s $216 for Copilot and $179.88 for Monarch. On annual plans the gap is about $9. Monarch also has a referral discount: 50% off the first year of annual Core, billed on the web.</p>
+
+  <h2 id="devices">Devices decide this for a lot of families</h2>
+  <p>Copilot runs on iPhone, iPad, Mac and the web. There is no Android app. If one partner has an Android phone, they would be limited to the web app. Monarch has web, iPhone and Android apps.</p>
+  <p>Copilot also works with US accounts only. Copilot says it connects to 16,000+ US institutions. If you bank outside the US, it isn’t an option.</p>
+
+  <h2 id="partners">Sharing with a partner</h2>
+  <p>The two apps share differently:</p>
+  <ul>
+    <li><strong>Copilot</strong> lets up to 3 people use one account at no extra cost. Copilot says each person gets full access. Its pricing page shows personal and joint accounts side by side and who spent what; we didn’t find a setting there to limit what another person sees.</li>
+    <li><strong>Monarch</strong> gives each household member their own login under one subscription. Its couples page says everyone in the household sees all connected accounts and transactions. You can tag your partner to review a transaction.</li>
+  </ul>
+  <p>Neither lets one partner keep an account private from the other. If that matters, see <a href="/budgeting-apps-for-couples">budgeting apps for couples</a>.</p>
+
+  <h2 id="daily">Day-to-day use</h2>
+  <p>Copilot’s pitch is automation. Copilot’s help center says that once you’ve reviewed 30 transactions, it starts suggesting a category and type for each new one, and the suggestions improve as you review more. It can match Amazon orders and Venmo payments to the right line items, and it connects directly to Apple Card. Copilot also has a chat assistant (in beta) that answers questions about your own data.</p>
+  <p>Monarch builds your first budget from a six-month average of real spending, offers flex or category budgets, and adds goals and a debt payoff view. Monarch Plus ($199.99 a year) adds forecasting and small-business tracking.</p>
+  <p>For a family, the useful test is simple: after two weeks of the trial, are the daycare, grocery and Target charges landing in the right categories without you fixing them? Whichever app needs fewer fixes for <em>your</em> accounts is the one you’ll keep using.</p>
+
+  <h2 id="trial">Trying them</h2>
+  <p>Copilot’s trial is a month, but you pick a plan to start it and it renews automatically; you can turn off auto-renew in Settings › Subscription. Monarch’s trial is 7 days and needs a payment method; Monarch says it offers a money-back guarantee. Start Copilot first if you want to try both, then start Monarch in the last week.</p>
+
+  <h2 id="verdict">Who should pick which</h2>
+  <ul>
+    <li><strong>Pick Copilot</strong> if your household is all Apple, you want the most automated categorizing, and you shop a lot on Amazon or pay each other on Venmo.</li>
+    <li><strong>Pick Monarch</strong> if anyone uses Android, you want separate logins for each partner, or you want to spend a little less.</li>
+    <li>Want a stricter, plan-first budget instead? See <a href="/monarch-vs-ynab">Monarch vs YNAB</a>.</li>
+  </ul>
+
+  <ReferralCta app={monarch} />
+  <p><a href="https://www.copilot.money/" rel="nofollow noopener">Start Copilot’s 1-month free trial on copilot.money</a> ↗</p>
+  {/* [affiliate link pending approval: Copilot Money (impact.com marketplace; no official affiliate page found). Plain nofollow link until approved.] */}
+
+  <h2 id="faq">Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  <p class="meta">Sources, checked {CHECKED}: <a href="https://www.copilot.money/pricing" rel="nofollow">Copilot pricing</a>, <a href="https://www.copilot.money/faq" rel="nofollow">Copilot FAQ</a>, <a href="https://help.copilot.money/en/articles/11157550-quick-start-guide" rel="nofollow">Copilot quick start guide</a>, <a href="https://apps.apple.com/us/app/copilot-track-budget-money/id1447330651" rel="nofollow">Copilot on the App Store</a>, <a href="https://www.monarch.com/pricing" rel="nofollow">Monarch pricing</a>, <a href="https://www.monarch.com/for-couples" rel="nofollow">Monarch for couples</a>. Prices change; check before you subscribe.</p>
+  <p>More: <a href="/apps/copilot-money">Copilot review</a> · <a href="/apps/monarch">Monarch review</a> · <a href="/mint-alternatives">Mint alternatives</a> · <a href="/compare">Compare all apps</a></p>
+</Base>

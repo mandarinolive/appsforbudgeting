@@ -55,11 +55,12 @@ export const APPS: App[] = [
     },
   },
   {
-    slug: 'copilot-money', name: 'Copilot Money', url: 'https://www.copilot.money', source: 'https://www.copilot.money/',
+    slug: 'copilot-money', name: 'Copilot Money', url: 'https://www.copilot.money', source: 'https://www.copilot.money/pricing',
     status: 'active', summary: 'Polished spending, budget and investment tracker that auto-categorizes transactions and learns your patterns.',
-    pricing: '$95 per year (shown as $7.92 per month), with a monthly option and a free trial.',
-    priceShort: '$95/yr', free: 'Free trial only', platforms: ['iPhone', 'iPad', 'Mac', 'Web'], bankSync: 'Yes', style: 'Automated',
+    pricing: '$109 per year (labeled a limited-time price, down from $119) or $18 per month, after a 1-month free trial. You pick a plan to start the trial, and it renews automatically.', // re-checked Oct 27, 2026
+    priceShort: '$109/yr or $18/mo', free: 'Free trial only', platforms: ['iPhone', 'iPad', 'Mac', 'Web'], bankSync: 'Yes', style: 'Automated',
     bestFor: ['Apple users', 'People who want tracking more than a strict method'],
+    sharing: 'Up to 3 people can be on one account at no extra cost, and each gets full access.',
     families: 'Works well if every adult in the house uses Apple devices or the web; there is no Android app.',
     pros: ['Automatic categorization that improves as you use it', 'Budgets with rollovers', 'Investments and real estate alongside spending'],
     cons: ['No Android app', 'No free plan after the trial'],

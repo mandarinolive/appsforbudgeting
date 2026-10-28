@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import { bySlug } from '../data/apps';
+import { breadcrumbs, faqLd, itemList } from '../lib';
+
+// Facts re-checked on official pages Oct 27, 2026:
+// https://www.ynab.com/pricing, https://www.ynab.com/terms/ynab-together
+// https://www.ramseysolutions.com/ramseyplus/everydollar
+// https://everydollar.help.ramseysolutions.com/hc/en-us/articles/36246135475469-Household-Inviting-a-Spouse-To-Share-a-Budget
+const CHECKED = 'Oct 27, 2026';
+const ynab = bySlug('ynab');
+const ed = bySlug('everydollar');
+
+const rows = [
+  ['Free option', 'None. 34-day free trial, no card when you sign up on ynab.com.', 'Yes, a free version you can keep using. Transactions are entered by hand.'],
+  ['Paid price', '$109 a year or $14.99 a month, plus tax where applicable.', 'Premium: $79.99 a year or $17.99 a month, after a 14-day trial (new users).'],
+  ['Bank connection', 'Included. Direct import supports select US, Canadian, UK and EU banks; file import elsewhere.', 'Premium only (via Mastercard Connect and Plaid).'],
+  ['Method', 'Zero-based: give every dollar a job, using only money you already have.', 'Zero-based: income minus planned spending equals zero, built around the debt snowball.'],
+  ['Sharing', 'Up to six people on one subscription, each with their own login.', 'A household feature lets a couple run one budget with separate email logins.'],
+  ['Extras', 'Targets for savings goals, loan calculator, free 365 days for verified college students.', 'Premium adds paycheck planning, custom reports, CSV export, coaching and a net worth projection.'],
+];
+
+const faq = [
+  { q: 'Is EveryDollar or YNAB cheaper?', a: 'EveryDollar’s free version costs nothing. If you want bank connection, EveryDollar Premium is $79.99 a year versus $109 for YNAB, so EveryDollar is $29.01 less on annual plans. On monthly plans YNAB is cheaper: $14.99 versus $17.99. Prices checked Oct 27, 2026.' },
+  { q: 'Can I share EveryDollar with my spouse?', a: 'Yes. Ramsey says the household feature lets couples manage one budget together with separate email sign-ins: you invite your spouse from Ramsey Account Settings, and both of you see and edit the inviting person’s budget. Ramsey’s pages we checked don’t say whether this needs Premium.' },
+  { q: 'Are YNAB and EveryDollar both zero-based?', a: 'Yes. Both have you plan every dollar of income. YNAB budgets only money you already have; EveryDollar plans the month’s income ahead and leans on Ramsey’s debt snowball.' },
+  { q: 'Which is better for paying off debt?', a: 'EveryDollar is built around the debt snowball (smallest balance first) and Premium includes a debt payoff tracker. YNAB includes a loan calculator and doesn’t prescribe a payoff order.' },
+  { q: 'Which free trial is longer?', a: 'YNAB’s: 34 days with no card when you sign up directly. EveryDollar Premium has a 14-day trial for new users, and the free version has no time limit.' },
+];
+
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Compare apps', path: '/compare' }, { name: 'YNAB vs EveryDollar', path: '/ynab-vs-everydollar' }]),
+  itemList('YNAB vs EveryDollar', [ynab, ed]),
+  faqLd(faq),
+];
+---
+<Base title="YNAB vs EveryDollar: free vs $109, and which fits a family (Oct 2026)" description="YNAB vs EveryDollar, checked Oct 27, 2026: EveryDollar has a free manual version and $79.99 Premium; YNAB is $109 a year with bank sync. Method, sharing and debt payoff compared." jsonLd={jsonLd}>
+  <p class="meta"><a href="/compare">All apps</a> › YNAB vs EveryDollar</p>
+  <h1>YNAB vs EveryDollar: two zero-based budgets, two price models</h1>
+  <p class="lede">Both apps have you plan every dollar before the month runs away. EveryDollar has a free version if you’re willing to type in transactions, and it’s built around Dave Ramsey’s debt plan. YNAB costs more on annual plans (less on monthly) but includes bank import and doesn’t push a particular payoff order.</p>
+  <p class="notice small">How we compared: each company’s own pricing and help pages, checked {CHECKED}. We haven’t finished hands-on testing. We have no affiliate relationship with YNAB or EveryDollar.</p>
+
+  <h2 id="table">YNAB vs EveryDollar at a glance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>YNAB</th><th>EveryDollar</th></tr></thead>
+      <tbody>{rows.map(([k, y, e]) => <tr><th scope="row">{k}</th><td>{y}</td><td>{e}</td></tr>)}</tbody>
+    </table>
+  </div>
+
+  <h2 id="price">The price question, worked out</h2>
+  <ul>
+    <li><strong>You’ll enter transactions by hand:</strong> EveryDollar free, $0.</li>
+    <li><strong>You want bank import, paid yearly:</strong> EveryDollar Premium $79.99, YNAB $109.</li>
+    <li><strong>You want bank import, paid monthly:</strong> YNAB $14.99, EveryDollar Premium $17.99. Over 12 months that’s $179.88 vs $215.88.</li>
+  </ul>
+  <p>For a family budget with two working parents, typing in every transaction tends to be the part that slips. If you start on EveryDollar free, decide up front who logs what, and when.</p>
+
+  <h2 id="method">Same idea, different rules</h2>
+  <p>Both are zero-based: income minus everything you plan to spend, save or give equals zero. The difference is what you’re allowed to plan with. YNAB has you budget only money already in your accounts, so next Friday’s paycheck doesn’t get assigned until it arrives. EveryDollar plans the month’s expected income ahead of time, and it walks you through Ramsey’s debt snowball, where you pay off debts from smallest to largest balance regardless of interest rate.</p>
+  <p>If you already follow Ramsey’s Baby Steps, EveryDollar will feel familiar. If you’d rather pay off the highest-interest debt first, or you don’t have debt, YNAB’s approach doesn’t get in your way.</p>
+
+  <h2 id="kids">Planning for kid costs</h2>
+  <p>Both handle lumpy expenses. In EveryDollar it’s a sinking fund (included in the free version): you set aside a bit each month for the camp deposit or the holiday. In YNAB you set a target on a category and fund it over time. For families paying for childcare, either way works as long as the yearly costs (registration fees, summer care, the week the daycare closes) go in as their own lines.</p>
+
+  <h2 id="partners">Budgeting together</h2>
+  <p>EveryDollar’s household feature lets a couple share one budget, each with their own email sign-in. Both of you see and edit the budget of the person who sent the invite. (The Ramsey pages we checked don’t say whether household sharing needs Premium.) YNAB covers up to six people on one subscription, each with their own login. In YNAB, the person paying is the Group Manager and can see and edit every budget in the group, which matters if you’re also sharing with, say, a grandparent who helps with childcare.</p>
+
+  <h2 id="verdict">Who should pick which</h2>
+  <ul>
+    <li><strong>Pick EveryDollar</strong> if you want to start free, you follow the debt snowball, or you’re happy to log spending by hand.</li>
+    <li><strong>Pick YNAB</strong> if you want bank import included, pay monthly, have irregular income, or want to share with more than one other person.</li>
+    <li>Want automatic tracking with less planning? See <a href="/monarch-vs-ynab">Monarch vs YNAB</a>.</li>
+  </ul>
+
+  <p><a href="https://www.ynab.com/pricing" rel="nofollow noopener">YNAB’s 34-day trial on ynab.com</a> ↗ · <a href="https://www.ramseysolutions.com/ramseyplus/everydollar" rel="nofollow noopener">EveryDollar on ramseysolutions.com</a> ↗</p>
+  {/* [affiliate links pending approval: YNAB (invite-only) and EveryDollar (Ramsey Solutions program; network listed by third parties as Rakuten). Plain nofollow links until approved.] */}
+
+  <h2 id="faq">Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  <p class="meta">Sources, checked {CHECKED}: <a href="https://www.ynab.com/pricing" rel="nofollow">YNAB pricing and FAQ</a>, <a href="https://www.ynab.com/terms/ynab-together" rel="nofollow">YNAB Together terms</a>, <a href="https://www.ramseysolutions.com/ramseyplus/everydollar" rel="nofollow">EveryDollar features, pricing and FAQ</a>, <a href="https://everydollar.help.ramseysolutions.com/hc/en-us/articles/36246135475469-Household-Inviting-a-Spouse-To-Share-a-Budget" rel="nofollow">EveryDollar household help</a>. Prices change; check before you subscribe.</p>
+  <p>More: <a href="/apps/ynab">YNAB review</a> · <a href="/apps/everydollar">EveryDollar review</a> · <a href="/budgeting-apps-for-couples">Budgeting apps for couples</a> · <a href="/compare">Compare all apps</a></p>
+</Base>

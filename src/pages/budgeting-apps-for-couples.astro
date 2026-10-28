@@ -1,0 +1,86 @@
+---
+import ReferralCta from '../components/ReferralCta.astro';
+import Base from '../layouts/Base.astro';
+import { bySlug } from '../data/apps';
+import { breadcrumbs, faqLd, itemList } from '../lib';
+
+// Facts re-checked on official pages Oct 27, 2026:
+// Honeydue: https://support.honeydue.com/en/articles/3283211-how-to-change-what-my-partner-can-see, https://www.honeydue.com/
+// Monarch: https://www.monarch.com/for-couples, https://www.monarch.com/pricing
+// YNAB: https://www.ynab.com/pricing, https://www.ynab.com/terms/ynab-together
+// Goodbudget: https://goodbudget.com/help/billing/subscribe-to-goodbudget/
+// EveryDollar: https://www.ramseysolutions.com/ramseyplus/everydollar, https://everydollar.help.ramseysolutions.com/hc/en-us/articles/36246135475469-Household-Inviting-a-Spouse-To-Share-a-Budget
+// Copilot: https://www.copilot.money/pricing, https://www.copilot.money/faq
+const CHECKED = 'Oct 27, 2026';
+const monarch = bySlug('monarch');
+
+const rows = [
+  { slug: 'honeydue', name: 'Honeydue', sees: 'You choose per account: balances and transactions, balances only, or nothing. You can hide a single transaction.', cost: 'Free to download', devices: 'iPhone, Android' },
+  { slug: 'monarch', name: 'Monarch', sees: 'Everything. Both partners see all accounts and transactions.', cost: '$99.99/yr or $14.99/mo, partner included', devices: 'Web, iPhone, Android' },
+  { slug: 'ynab', name: 'YNAB', sees: 'Shared budgets you choose. The Group Manager always sees and can edit every budget.', cost: '$109/yr or $14.99/mo, up to 6 people', devices: 'Web, iPhone, Android' },
+  { slug: 'goodbudget', name: 'Goodbudget', sees: 'One shared envelope budget on every synced device.', cost: 'Free on 2 devices; Premium $80/yr or $10/mo for 5', devices: 'Web, iPhone, Android' },
+  { slug: 'everydollar', name: 'EveryDollar', sees: 'One household budget, each partner with their own email login.', cost: 'Free (manual entry); Premium $79.99/yr or $17.99/mo. Unclear if sharing needs Premium', devices: 'Web, phone, tablet' },
+  { slug: 'copilot-money', name: 'Copilot Money', sees: 'Up to 3 people on one account, each with full access.', cost: '$109/yr or $18/mo', devices: 'iPhone, iPad, Mac, web (no Android)' },
+];
+
+const faq = [
+  { q: 'What is the best budgeting app for couples with separate accounts?', a: 'If you keep separate accounts and want some of them private, Honeydue is the one on our list built for that: for each account you own, you choose whether your partner sees balances and transactions, balances only, or nothing. It is free to download. Monarch and Copilot show everything to everyone in the household.' },
+  { q: 'Is there a free budgeting app for couples?', a: 'Yes. Honeydue is free to download. Goodbudget’s free plan shares one envelope budget across 2 devices (10 regular envelopes, 1 account). EveryDollar has a free manual-entry version and a household feature for sharing a budget with a spouse, though Ramsey’s pages we checked don’t say whether sharing needs Premium.' },
+  { q: 'Do we each need our own subscription?', a: 'No, for every paid app here. Monarch includes household members at no extra cost, YNAB covers up to six people, and Copilot allows up to 3 people on one account.' },
+  { q: 'Can my partner see my transactions in Monarch?', a: 'Yes. Monarch’s couples page says both people have full visibility into all accounts and transactions in a shared household.' },
+  { q: 'Which couples app works if one of us has Android and the other has an iPhone?', a: 'Honeydue, Monarch, YNAB, Goodbudget and EveryDollar all work across both. Copilot has no Android app.' },
+];
+
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Budgeting apps for couples', path: '/budgeting-apps-for-couples' }]),
+  itemList('Budgeting apps for couples', rows.map((r) => bySlug(r.slug))),
+  faqLd(faq),
+];
+---
+<Base title="Budgeting apps for couples, including separate accounts (Oct 2026)" description="Which couples budgeting apps show your partner everything, which let you keep accounts private, and which are free. Honeydue, Monarch, YNAB, Goodbudget, EveryDollar and Copilot, checked Oct 27, 2026." jsonLd={jsonLd}>
+  <h1>Budgeting apps for couples: start with what you want to share</h1>
+  <p class="lede">Most couples apps assume you’ll share everything. Some let each partner choose what the other sees. That one difference matters more than any feature list, so this page sorts the apps by it.</p>
+  <p class="notice small">How we picked: each app’s own pricing and help pages, checked {CHECKED}. We haven’t finished hands-on testing, and there are no paid placements. Our Monarch link is a referral link (labeled below).</p>
+
+  <h2 id="table">What your partner sees, app by app</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>App</th><th>What your partner sees</th><th>Cost for both of you</th><th>Devices</th></tr></thead>
+      <tbody>{rows.map((r) => <tr><td><a href={`/apps/${r.slug}`}>{r.name}</a></td><td>{r.sees}</td><td>{r.cost}</td><td>{r.devices}</td></tr>)}</tbody>
+    </table>
+  </div>
+
+  <h2 id="all-joint">We share everything: Monarch, YNAB or Copilot</h2>
+  <p>If your paychecks land in a joint account and you already talk about every purchase, a full-visibility app saves effort.</p>
+  <ul class="list">
+    <li><a class="name" href="/apps/monarch">Monarch</a><span class="tag">$99.99/yr</span><br /><span class="muted">Each partner gets their own login, and both see all accounts, including the 401(k) and the college fund. You can tag your partner to review a transaction, and set shared goals. A 7-day trial needs a payment method.</span>
+      <ReferralCta app={monarch} compact /></li>
+    <li><a class="name" href="/apps/ynab">YNAB</a><span class="tag">$109/yr</span><br /><span class="muted">Best if you both want to plan before you spend. Up to six people share one subscription, each with their own login. The 34-day trial needs no card on ynab.com.</span>
+      {/* [affiliate link pending approval: YNAB (invite-only program)] */}</li>
+    <li><a class="name" href="/apps/copilot-money">Copilot Money</a><span class="tag">$109/yr</span><br /><span class="muted">Only if you’re both on Apple devices or happy with the web app. Up to 3 people, each with full access. 1-month trial.</span>
+      {/* [affiliate link pending approval: Copilot Money] */}</li>
+  </ul>
+  <p>Torn between the first two? Read <a href="/monarch-vs-ynab">Monarch vs YNAB</a>.</p>
+
+  <h2 id="separate">We keep some money separate: Honeydue</h2>
+  <p>Lots of couples keep a joint account for rent, daycare and groceries, plus personal accounts. Honeydue is built for that. For each account you own, you pick what your partner can see: “Share both balances and transactions,” “Share balances only,” or “Nothing at all.” You can also hide one transaction, which Honeydue’s own example describes as a surprise anniversary gift.</p>
+  <p>Honeydue is free to download on iPhone and Android.</p>
+
+  <h2 id="free">We want to spend nothing: Goodbudget, Honeydue or EveryDollar</h2>
+  <ul>
+    <li><strong>Goodbudget</strong>: the free plan shares one envelope budget across 2 devices, with 10 regular envelopes, 10 annual or goal envelopes, 1 account and a year of history. Premium ($10 a month or $80 a year) adds US bank sync, unlimited envelopes and 5 devices. Envelopes map well to kid costs like childcare, diapers and swim lessons.</li>
+    <li><strong>EveryDollar</strong>: the free version is a zero-based budget with manual entry. A household feature lets a spouse share your budget with their own email login; Ramsey’s pages we checked don’t say whether that needs Premium. Premium ($79.99 a year or $17.99 a month after a 14-day trial) adds bank connection.</li>
+    <li><strong>Honeydue</strong>: free to download, as above.</li>
+  </ul>
+
+  <h2 id="one-runs-it">One of us runs the money</h2>
+  <p>That’s common, and it’s fine. Pick the app the person doing the work will actually open, then give the other partner a simple view. In YNAB, the subscriber is the Group Manager and can see and edit every budget in the group. In Monarch, the second partner can log in any time and see the same picture. Either way, a 15-minute check-in once a week does more than any feature.</p>
+
+  <h2 id="kids">If you have, or are about to have, kids</h2>
+  <p>Childcare often becomes the biggest line in the budget, and it arrives in lumps: deposits, registration fees, summer camps. Apps that make you set money aside ahead of time (YNAB, Goodbudget, EveryDollar) handle that well. See <a href="/best-for-families">budgeting apps for families with young kids</a> for more on that.</p>
+
+  <h2 id="faq">Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  <p class="meta">Sources, checked {CHECKED}: <a href="https://support.honeydue.com/en/articles/3283211-how-to-change-what-my-partner-can-see" rel="nofollow">Honeydue sharing help</a>, <a href="https://www.monarch.com/for-couples" rel="nofollow">Monarch for couples</a>, <a href="https://www.monarch.com/pricing" rel="nofollow">Monarch pricing</a>, <a href="https://www.ynab.com/pricing" rel="nofollow">YNAB pricing</a>, <a href="https://www.ynab.com/terms/ynab-together" rel="nofollow">YNAB Together terms</a>, <a href="https://goodbudget.com/help/billing/subscribe-to-goodbudget/" rel="nofollow">Goodbudget plans</a>, <a href="https://www.ramseysolutions.com/ramseyplus/everydollar" rel="nofollow">EveryDollar</a>, <a href="https://www.copilot.money/pricing" rel="nofollow">Copilot pricing</a>. Prices change; check before you subscribe.</p>
+</Base>

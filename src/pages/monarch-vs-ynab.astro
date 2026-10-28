@@ -1,0 +1,97 @@
+---
+import ReferralCta from '../components/ReferralCta.astro';
+import Base from '../layouts/Base.astro';
+import { bySlug } from '../data/apps';
+import { breadcrumbs, faqLd, itemList } from '../lib';
+
+// Facts re-checked on official pages Oct 27, 2026:
+// https://www.monarch.com/pricing, https://www.monarch.com/for-couples, https://www.monarch.com/compare/ynab-alternative,
+// https://www.ynab.com/pricing, https://www.ynab.com/terms/ynab-together, https://www.ynab.com/blog/ynab-vs-monarch,
+// https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards
+const CHECKED = 'Oct 27, 2026';
+const monarch = bySlug('monarch');
+const ynab = bySlug('ynab');
+
+const rows = [
+  ['Price', '$99.99 a year or $14.99 a month (Core). Plus is $199.99 a year.', '$109 a year or $14.99 a month, plus tax where applicable.'],
+  ['Free trial', '7 days. A payment method is required.', '34 days. No credit card when you sign up on ynab.com.'],
+  ['How the budget works', 'Plans against the income you expect this month. Flex or category budgets, with rollover categories.', 'Zero-based: you assign only money that has already arrived.'],
+  ['Sharing', 'Household members join free, each with their own login. Everyone sees all connected accounts and transactions.', 'Up to six people share one subscription, each with their own login. The Group Manager always sees every budget.'],
+  ['Investments', 'Pulls in holdings, allocation and performance (Monarch’s description).', 'Tracks investment accounts by balance, per Monarch’s comparison page.'],
+  ['Devices', 'Web, iPhone and Android.', 'Web, iPhone, Android and Apple Watch.'],
+  ['Discounts we found', '50% off the first annual Core year through a referral link (web billing only).', 'Free for 365 days for verified college students.'],
+];
+
+const faq = [
+  { q: 'Is Monarch or YNAB better for couples?', a: 'Both let a partner join at no extra cost. Monarch suits couples who want one shared view of every account and are fine with full visibility. YNAB suits couples where both people will sit down and assign money before it is spent; note that the YNAB Group Manager can see and edit every budget in the group.' },
+  { q: 'Which is cheaper, Monarch or YNAB?', a: 'On annual plans, Monarch Core is $99.99 and YNAB is $109, so Monarch is $9.01 less per year. Monthly plans are both $14.99. Prices checked Oct 27, 2026.' },
+  { q: 'Does Monarch do zero-based budgeting like YNAB?', a: 'Partly. Monarch says you plan how expected monthly income covers expenses and savings and bring “left to budget” to zero, with rollover categories for envelope-style saving. The difference is timing: YNAB has you assign only money you already have.' },
+  { q: 'Which has the longer free trial?', a: 'YNAB: 34 days with no credit card when you sign up directly. Monarch: 7 days, and it asks for a payment method.' },
+  { q: 'Can I hide an account from my partner?', a: 'Not in Monarch: its couples page says both people see all accounts and transactions in a shared household. In YNAB, members can choose whether to share a budget with other members, but every budget is always shared with the Group Manager.' },
+];
+
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Compare apps', path: '/compare' }, { name: 'Monarch vs YNAB', path: '/monarch-vs-ynab' }]),
+  itemList('Monarch vs YNAB', [monarch, ynab]),
+  faqLd(faq),
+];
+---
+<Base title="Monarch vs YNAB for couples and families (Oct 2026)" description="Monarch vs YNAB: price ($99.99 vs $109 a year), trials (7 vs 34 days), how each budget works, and what your partner can see. Checked on both official sites, Oct 27, 2026." jsonLd={jsonLd}>
+  <p class="meta"><a href="/compare">All apps</a> › Monarch vs YNAB</p>
+  <h1>Monarch vs YNAB: which one fits your household?</h1>
+  <p class="lede">Pick YNAB if you want to decide where each dollar goes before you spend it, and you will do that every week. Pick Monarch if you want every account, including investments, in one shared view with less upkeep. Monthly prices are the same. Annual plans differ by about $9.</p>
+  <p class="notice small">How we compared: each company’s own pricing, help and comparison pages, checked {CHECKED}. We haven’t finished hands-on testing, so nothing here is based on our own use. Where a claim comes from one company describing the other, we say so. Our Monarch link is a referral link (labeled below).</p>
+
+  <h2 id="table">Monarch vs YNAB at a glance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Monarch</th><th>YNAB</th></tr></thead>
+      <tbody>{rows.map(([k, m, y]) => <tr><th scope="row">{k}</th><td>{m}</td><td>{y}</td></tr>)}</tbody>
+    </table>
+  </div>
+
+  <h2 id="method">The real difference: when you make decisions about money</h2>
+  <p>YNAB asks you to give every dollar a job as soon as it lands. If you have $2,400 in checking, you split that $2,400 across rent, groceries, daycare and so on, and you don’t budget next week’s paycheck until it arrives. YNAB’s own comparison argues this works well for variable income and for people living close to the edge, because you never plan with money you don’t have yet.</p>
+  <p>Monarch starts from what you expect to earn this month. Its first budget fills itself from a six-month average of your actual spending, and you adjust from there. Rollover categories carry unspent money forward, which covers things like an annual insurance bill. Monarch also tracks investment holdings and net worth, which Monarch says YNAB tracks by balance only.</p>
+  <p>Neither is “right.” The question is whether your household will do a short, regular money session (YNAB) or would rather review what already happened (Monarch).</p>
+
+  <h2 id="kids">What changes when you have young kids</h2>
+  <p>Kid costs are lumpy: a daycare deposit, a summer camp, a birthday, a new car seat. Both apps can handle them, in different ways.</p>
+  <ul>
+    <li><strong>In YNAB</strong>, you set a target for each lumpy cost and fund it a bit each month. When the camp bill comes, the money is already sitting in that category.</li>
+    <li><strong>In Monarch</strong>, you’d use a rollover category or a Save Up goal (target amount and date). Monarch tells you whether you’re on track.</li>
+  </ul>
+  <p>If childcare is your biggest single line, work out the real monthly number first. (Our childcare-cost calculator is coming soon.)</p>
+
+  <h2 id="partners">What your partner can see</h2>
+  <p>This is the question couples most often skip, and the apps differ.</p>
+  <ul>
+    <li><strong>Monarch:</strong> household members join under one subscription at no extra cost, each with their own login. Monarch’s couples page says both people see all accounts and transactions. You can’t keep one account private inside a shared household.</li>
+    <li><strong>YNAB:</strong> one subscription covers up to six people (the subscriber plus five), each with their own login. Members choose which budgets to share with each other, but YNAB’s terms say every budget is always shared with the Group Manager, who can also edit it.</li>
+  </ul>
+  <p>If one of you wants some spending kept private, neither app is built for that. See <a href="/budgeting-apps-for-couples">budgeting apps for couples</a> for apps that let each partner choose what to share.</p>
+
+  <h2 id="cost">What it costs</h2>
+  <p>Monarch Core is $99.99 a year or $14.99 a month. Plus, which adds forecasting and small-business tracking, is $199.99 a year. YNAB is $109 a year or $14.99 a month, plus tax where applicable. Over three years on annual plans, at today’s prices, that’s $299.97 for Monarch Core and $327 for YNAB.</p>
+  <p>Two discounts are worth knowing. Monarch’s referral program gives new members 50% off the first year of annual Core, billed on the web. YNAB gives verified college students a free 365-day trial. Monarch recommends signing up on the web rather than through an app store, and YNAB notes that app stores may ask for a card to start the trial.</p>
+
+  <h2 id="trial">How to try both without paying twice</h2>
+  <p>Start YNAB first: its 34-day trial needs no card when you sign up on ynab.com. If the zero-based method hasn’t clicked by week three, start Monarch’s 7-day trial and connect the same accounts. Monarch asks for a payment method, so set a reminder to cancel before day 7 if it isn’t for you. Monarch also says it offers a money-back guarantee.</p>
+
+  <h2 id="verdict">Who should pick which</h2>
+  <ul>
+    <li><strong>Pick YNAB</strong> if your income varies, you’re paying down debt, or you want both partners making spending decisions together before the money goes out.</li>
+    <li><strong>Pick Monarch</strong> if you want one place for checking, cards, the 401(k) and the college fund, and a budget that mostly runs itself.</li>
+    <li><strong>Pick neither</strong> if you want a free app. Look at <a href="/apps/everydollar">EveryDollar</a> or <a href="/apps/goodbudget">Goodbudget</a>, or see <a href="/ynab-vs-everydollar">YNAB vs EveryDollar</a>.</li>
+  </ul>
+
+  <ReferralCta app={monarch} />
+  <p><a href="https://www.ynab.com/pricing" rel="nofollow noopener">Start YNAB’s 34-day free trial on ynab.com</a> ↗</p>
+  {/* [affiliate link pending approval: YNAB. YNAB's affiliate program is invite-only (https://www.ynab.com/press/partnerships). Until approved, this is a plain nofollow link.] */}
+
+  <h2 id="faq">Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  <p class="meta">Sources, checked {CHECKED}: <a href="https://www.monarch.com/pricing" rel="nofollow">Monarch pricing</a>, <a href="https://www.monarch.com/for-couples" rel="nofollow">Monarch for couples</a>, <a href="https://www.monarch.com/compare/ynab-alternative" rel="nofollow">Monarch’s YNAB comparison</a>, <a href="https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards" rel="nofollow">Monarch referral terms</a>, <a href="https://www.ynab.com/pricing" rel="nofollow">YNAB pricing</a>, <a href="https://www.ynab.com/terms/ynab-together" rel="nofollow">YNAB Together terms</a>, <a href="https://www.ynab.com/blog/ynab-vs-monarch" rel="nofollow">YNAB’s Monarch comparison</a>. Prices change; check before you subscribe.</p>
+  <p>More: <a href="/apps/monarch">Monarch review</a> · <a href="/apps/ynab">YNAB review</a> · <a href="/copilot-vs-monarch">Copilot vs Monarch</a> · <a href="/compare">Compare all apps</a></p>
+</Base>
