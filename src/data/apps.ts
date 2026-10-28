@@ -23,6 +23,8 @@ export type App = {
   cons: string[];
   // Referral/affiliate link. Rendered with rel="sponsored noopener" + a visible disclosure (src/components/ReferralCta.astro).
   referral?: { url: string; cta: string; terms: string; source: string };
+  faqExtra?: { q: string; a: string }[]; // extra verified FAQs shown on /apps/<slug>
+  title?: string; // custom <title> for /apps/<slug>
 };
 
 export const APPS: App[] = [
@@ -53,6 +55,15 @@ export const APPS: App[] = [
       terms: 'Annual Core plan, signed up and billed on the web (not via the App Store or Google Play, and not Plus or monthly plans).',
       source: 'https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards',
     },
+    title: 'Monarch Money review: price, free trial, discount and Plus (Oct 2026)',
+    // Re-checked Oct 27, 2026: monarch.com/pricing, help.monarch.com Referral Rewards (updated Oct 23, 2026), Pricing, Monarch Plus Tier.
+    faqExtra: [
+      { q: 'Does Monarch have a free trial?', a: 'Yes, 7 days, on both Core and Plus. Monarch’s pricing page says to cancel in settings before the trial ends if you don’t want to be charged.' },
+      { q: 'Is there a Monarch discount?', a: 'New members who sign up through a referral link get 50% off their first year of annual Core, if they subscribe on the web with direct billing. Monthly plans, Plus, and App Store or Google Play subscriptions don’t qualify. Our Monarch link is a referral link.' },
+      { q: 'What does Monarch Plus cost, and what does it add?', a: 'Plus is $199.99 a year, billed annually, with a 7-day free trial. It adds forecasting, business tracking and deeper investment analysis, and Monarch says it covers the whole household like Core. Monarch says Plus features are currently on desktop.' },
+      { q: 'Can I get a refund if Monarch isn’t right for me?', a: 'Monarch says it offers a no-questions-asked money-back guarantee. It recommends subscribing on the web rather than through the App Store or Google Play, which makes the subscription easier to manage.' },
+      { q: 'Is Monarch worth it?', a: 'It depends on what you want from a budgeting app. Monarch is paid only (no free plan), and you get budgets, investments, net worth and goals in one place, with free logins for everyone in your household. If you mainly want to cancel subscriptions, see Rocket Money vs Monarch. If price matters most, Simplifi costs less. Try the 7-day trial with your real accounts before you decide.' },
+    ],
   },
   {
     slug: 'copilot-money', name: 'Copilot Money', url: 'https://www.copilot.money', source: 'https://www.copilot.money/pricing',
@@ -68,10 +79,10 @@ export const APPS: App[] = [
   {
     slug: 'quicken-simplifi', name: 'Quicken Simplifi', url: 'https://www.quicken.com/products/simplifi/', source: 'https://www.quicken.com/products/simplifi/',
     status: 'active', summary: 'Spending-plan app from Quicken that starts with income, subtracts bills and shows what is left to spend.',
-    pricing: '$6.99 per month, billed annually. Quicken was showing a first-year discount to $3.99 per month when we checked.',
+    pricing: '$6.99 per month, billed annually ($83.88 a year). Quicken was showing a first-year price of $3.99 per month when we checked, and renewals are charged at the full price. No free trial; Quicken offers a 30-day money-back guarantee on direct purchases.', // re-checked Oct 27, 2026
     priceShort: '$6.99/mo billed yearly', free: 'Paid', platforms: ['Web', 'iOS', 'Android'], bankSync: 'Yes', style: 'Spending plan',
     bestFor: ['Beginners', 'Former Mint users', 'People who want a low price'],
-    sharing: 'Quicken says you can share a Simplifi account with someone else.',
+    sharing: 'You can share your Simplifi space with one other person, who gets their own Quicken ID and doesn’t need a separate subscription.',
     families: 'A low-cost shared spending plan for a busy household that wants a daily "left to spend" number.',
     pros: ['Low price', 'Shows how much is left to spend per day', 'Supports zero-based, envelope and 50/30/20 styles'],
     cons: ['Billed annually', 'No free plan'],
@@ -191,13 +202,13 @@ export const APPS: App[] = [
   {
     slug: 'honeydue', name: 'Honeydue', url: 'https://www.honeydue.com', source: 'https://www.honeydue.com/',
     status: 'active', summary: 'Money app built for couples: shared view of accounts, bills and spending, with chat.',
-    pricing: 'Free to download.',
-    priceShort: 'Free', free: 'Free', platforms: ['iOS', 'Android'], bankSync: 'Yes', style: 'Category',
-    bestFor: ['Couples'],
-    sharing: 'Each partner chooses what to share.',
+    pricing: 'Free. Optional monthly tips from $0.99 to $9.99 are sold in the App Store, and the app shows ads.', // re-checked Oct 27, 2026: App Store + Google Play listings
+    priceShort: 'Free', free: 'Free', platforms: ['iPhone', 'Android'], bankSync: 'Yes', style: 'Category',
+    bestFor: ['Couples', 'Couples with separate accounts'],
+    sharing: 'For each account you own, you choose whether your partner sees balances and transactions, balances only, or nothing. You can also hide a single transaction.',
     families: 'Built for two partners from day one, with control over what each person shares.',
-    pros: ['Free', 'Designed for couples', 'Choose what to share'],
-    cons: ['Lighter budgeting tools', 'Mobile only'],
+    pros: ['Free', 'Designed for couples', 'Choose what to share, account by account', 'Bill reminders and monthly category limits'],
+    cons: ['Lighter budgeting tools', 'Mobile only (no web app)', 'Shows ads'],
   },
   {
     slug: 'zeta', name: 'Zeta', url: 'https://help.acorns.com/hc/en-us/articles/Why-did-Zeta-join-Acorns', source: 'https://help.acorns.com/hc/en-us/articles/Why-did-Zeta-join-Acorns',

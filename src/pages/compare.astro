@@ -3,6 +3,7 @@ import ReferralCta from '../components/ReferralCta.astro';
 import Base from '../layouts/Base.astro';
 import { APPS, ACTIVE, CHECKED } from '../data/apps';
 import { breadcrumbs, itemList } from '../lib';
+import { COMPARISONS } from '../data/comparisons';
 const rows = [...ACTIVE].sort((a, b) => a.name.localeCompare(b.name));
 const jsonLd = [
   breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Compare apps', path: '/compare' }]),
@@ -31,5 +32,7 @@ const gone = APPS.filter((a) => a.status === 'discontinued');
   </div>
   {gone.length > 0 && <p class="meta">Discontinued: {gone.map((g) => <a href={`/apps/${g.slug}`}>{g.name}</a>)} (accounts closed May 9, 2025).</p>}
   <p>Shopping as a couple or a family? Start with <a href="/best-for-families">budgeting apps for families with young kids</a>. Coming from Mint? See <a href="/mint-alternatives">the best Mint alternatives</a>.</p>
-  <p>Head-to-head: <a href="/monarch-vs-ynab">Monarch vs YNAB</a> · <a href="/copilot-vs-monarch">Copilot vs Monarch</a> · <a href="/ynab-vs-everydollar">YNAB vs EveryDollar</a> · <a href="/budgeting-apps-for-couples">Apps for couples</a></p>
+  <h2 id="head-to-head">Head-to-head comparisons</h2>
+  <ul>{COMPARISONS.map((c) => <li><a href={c.path}>{c.label}</a></li>)}</ul>
+  <p>Also: <a href="/budgeting-apps-for-couples">Budgeting apps for couples</a> · <a href="/childcare-cost-calculator">Childcare cost calculator</a></p>
 </Base>

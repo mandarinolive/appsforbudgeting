@@ -1,0 +1,89 @@
+---
+import ReferralCta from '../components/ReferralCta.astro';
+import Base from '../layouts/Base.astro';
+import { bySlug } from '../data/apps';
+import { breadcrumbs, faqLd, itemList } from '../lib';
+
+// Facts checked on official pages Oct 27, 2026:
+// https://www.quicken.com/products/simplifi/, https://support.simplifi.quicken.com/en/articles/3363727-quicken-simplifi-subscription-questions,
+// https://support.simplifi.quicken.com/en/articles/6443103-how-to-use-spaces-sharing-in-quicken-simplifi,
+// https://www.monarch.com/pricing, https://www.monarch.com/for-couples, https://www.monarch.com/compare/ynab-alternative,
+// https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards
+// [affiliate link pending approval: Quicken Simplifi (affiliate program reported on Impact; not applied). Plain nofollow link until approved.]
+const CHECKED = 'Oct 27, 2026';
+const monarch = bySlug('monarch');
+const simplifi = bySlug('quicken-simplifi');
+
+const rows = [
+  ['Price', '$6.99 a month, billed annually ($83.88 a year). First year shown at $3.99 a month ($47.88); renews at the full price.', '$99.99 a year or $14.99 a month (Core). Plus is $199.99 a year.'],
+  ['Monthly billing', 'No. Annual plans only.', 'Yes, $14.99 a month.'],
+  ['Free trial', 'None. 30-day money-back guarantee on purchases from Quicken.com.', '7 days. Money-back guarantee.'],
+  ['Devices', 'Web, iPhone and Android.', 'Web, iPhone and Android.'],
+  ['Where it works', 'U.S. and Canadian accounts. One currency at a time (USD or CAD).', 'Monarch’s help center says Plus is available to Canadian members.'],
+  ['Sharing', 'One other person per space, with their own Quicken ID, no extra subscription.', 'Any number of household members, each with their own login, no extra cost.'],
+  ['Budget style', 'Spending Plan: income minus bills and subscriptions, shown as what’s left to spend, including per day.', 'Flex or category budgets with rollovers. First budget built from a six-month average.'],
+];
+
+const faq = [
+  { q: 'Is Simplifi cheaper than Monarch?', a: 'Yes. On Oct 27, 2026, Simplifi was $6.99 a month billed annually ($83.88 a year), with a first-year price of $3.99 a month ($47.88). Monarch Core was $99.99 a year. Monarch’s referral discount (50% off the first year of annual Core) brings Monarch’s first year to about $50, close to Simplifi’s intro price.' },
+  { q: 'Does Simplifi have a free trial?', a: 'No. Quicken says Simplifi has no free trial but offers a 30-day money-back guarantee from the purchase date, for subscriptions bought directly from Quicken.com. Monarch has a 7-day free trial.' },
+  { q: 'Can I pay for Simplifi monthly?', a: 'No. Quicken’s help center says only annual plans are available; the monthly figure on its site is billed as one annual charge.' },
+  { q: 'Can my partner use Simplifi with me?', a: 'Yes, one other person. With Spaces & Sharing, you invite them by email; they need their own Quicken ID but not a separate subscription, and they first sign in on the web app. Quicken says sharing only specific accounts isn’t available yet. Monarch lets you add several household members, each with their own login, and everyone sees all accounts.' },
+  { q: 'Which is better for a former Mint user?', a: 'Both are close to how Mint worked: automatic bank syncing, categories, bills and a budget. Simplifi is cheaper and centers on a single “left to spend” number. Monarch costs more and adds deeper goals, investments and household logins. See our Mint alternatives guide for more options.' },
+];
+
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Compare apps', path: '/compare' }, { name: 'Simplifi vs Monarch', path: '/simplifi-vs-monarch' }]),
+  itemList('Quicken Simplifi vs Monarch', [simplifi, monarch]),
+  faqLd(faq),
+];
+---
+<Base title="Simplifi vs Monarch: price, trial, sharing and budgets (Oct 2026)" description="Quicken Simplifi vs Monarch, checked on both official sites Oct 27, 2026: Simplifi is $83.88 a year (first year $47.88), Monarch $99.99. Trials, sharing with a partner, and who each fits." jsonLd={jsonLd}>
+  <p class="meta"><a href="/compare">All apps</a> › Simplifi vs Monarch</p>
+  <h1>Simplifi vs Monarch: which one for your household?</h1>
+  <p class="lede">Simplifi is the cheaper pick if you want one clear number: what’s left to spend this month after bills. Monarch costs a little more and fits better if more than two people share the money, or you want goals, investments and a fuller household view in one place.</p>
+  <p class="notice small">How we compared: each company’s own product, pricing and help pages, checked {CHECKED}. We haven’t done hands-on testing, so nothing here comes from our own use. Our Monarch link is a referral link (labeled below). We have no relationship with Quicken.</p>
+
+  <h2 id="table">Simplifi vs Monarch at a glance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Quicken Simplifi</th><th>Monarch</th></tr></thead>
+      <tbody>{rows.map(([k, a, b]) => <tr><th scope="row">{k}</th><td>{a}</td><td>{b}</td></tr>)}</tbody>
+    </table>
+  </div>
+
+  <h2 id="price">Price: Simplifi costs less, especially in year one</h2>
+  <p>Quicken lists Simplifi at $6.99 a month, billed annually, which is $83.88 a year. On {CHECKED} it showed a first-year price of $3.99 a month ($47.88). Quicken’s help center says renewals are charged at the full standard price, and that only annual plans are available.</p>
+  <p>Monarch Core is $99.99 a year or $14.99 a month. If you sign up through a referral link and pay on the web, the first year of annual Core is 50% off, about $50. From year two, the gap is about $16 a year in Simplifi’s favor.</p>
+
+  <h2 id="trial">Trying them first</h2>
+  <p>Simplifi has no free trial. Quicken offers a 30-day money-back guarantee instead, but only on subscriptions bought directly from Quicken.com; App Store and Amazon purchases follow those stores’ refund rules. Monarch has a 7-day free trial and says it offers a money-back guarantee.</p>
+
+  <h2 id="partners">Sharing with a partner</h2>
+  <ul>
+    <li><strong>Simplifi</strong> includes one shareable space, and you can add one other person to it. They need their own Quicken ID but no subscription of their own. They have to accept the invite on the web app first. Quicken says limited access, such as sharing only certain accounts, isn’t available yet, so the person you invite works with the same data you do.</li>
+    <li><strong>Monarch</strong> lets you invite one or more household members under one subscription, each with their own login. Monarch says everyone has full visibility into all accounts and transactions. You can tag a partner to review a transaction.</li>
+  </ul>
+  <p>If you need to keep some accounts private from your partner, neither is a fit. See <a href="/honeydue-vs-monarch">Honeydue vs Monarch</a> or <a href="/budgeting-apps-for-couples">budgeting apps for couples</a>.</p>
+
+  <h2 id="budget">How budgeting works in each</h2>
+  <p>Simplifi’s Spending Plan starts with your monthly income, subtracts bills and subscriptions, and shows what’s left, including how much you can spend per day for the rest of the month. You can add planned spending (Quicken’s examples are groceries and birthday dinners) and savings goals so that money isn’t counted as spendable. Quicken says the plan works with zero-based, envelope or 50/30/20 budgeting. It also projects future balances from your income and bills and lets you run “what-if” scenarios.</p>
+  <p>Monarch builds your first budget from a six-month average of your real spending. You choose flex or category budgets, and rollover categories carry leftover money into the next month. Monarch finds recurring bills in your transactions and shows them on a calendar. Save Up goals track a target amount and date. Plus ($199.99 a year) adds longer-range forecasting and business tracking.</p>
+  <p>For a family, Simplifi’s per-day number is easy for a busy partner to check. Monarch’s goals and rollovers are handier for saving toward lumpy kid costs like camp or a daycare deposit.</p>
+
+  <h2 id="verdict">Who should pick which</h2>
+  <ul>
+    <li><strong>Pick Simplifi</strong> if price matters most, two adults share the money, and you want a simple “left to spend” view. Be ready to pay for a year up front.</li>
+    <li><strong>Pick Monarch</strong> if you want a free trial, monthly billing, more than one person invited, or goals and investments alongside the budget.</li>
+    <li>Not sure about either? See <a href="/mint-alternatives">Mint alternatives</a> or <a href="/copilot-vs-monarch">Copilot vs Monarch</a>.</li>
+  </ul>
+
+  <ReferralCta app={monarch} />
+  <p><a href="https://www.quicken.com/products/simplifi/" rel="nofollow noopener">See Simplifi’s current price on quicken.com</a> ↗</p>
+
+  <h2 id="faq">Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  <p class="meta">Sources, checked {CHECKED}: <a href="https://www.quicken.com/products/simplifi/" rel="nofollow">Quicken Simplifi product page</a>, <a href="https://support.simplifi.quicken.com/en/articles/3363727-quicken-simplifi-subscription-questions" rel="nofollow">Simplifi subscription questions</a>, <a href="https://support.simplifi.quicken.com/en/articles/6443103-how-to-use-spaces-sharing-in-quicken-simplifi" rel="nofollow">Simplifi Spaces &amp; Sharing</a>, <a href="https://www.monarch.com/pricing" rel="nofollow">Monarch pricing</a>, <a href="https://www.monarch.com/for-couples" rel="nofollow">Monarch for couples</a>, <a href="https://www.monarch.com/compare/ynab-alternative" rel="nofollow">Monarch budgeting FAQ</a>, <a href="https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards" rel="nofollow">Monarch referral terms</a>. Prices change; check before you subscribe.</p>
+  <p>More: <a href="/apps/quicken-simplifi">Simplifi review</a> · <a href="/apps/monarch">Monarch review</a> · <a href="/compare">Compare all apps</a></p>
+</Base>

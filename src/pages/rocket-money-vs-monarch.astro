@@ -1,0 +1,87 @@
+---
+import ReferralCta from '../components/ReferralCta.astro';
+import Base from '../layouts/Base.astro';
+import { bySlug } from '../data/apps';
+import { breadcrumbs, faqLd, itemList } from '../lib';
+
+// Facts checked on official pages Oct 27, 2026:
+// https://www.rocketmoney.com/learn/personal-finance/how-much-does-rocket-money-cost (dated Jan 19, 2026),
+// https://help.rocketmoney.com/en/articles/2217739-how-much-does-rocket-money-cost,
+// https://www.monarch.com/pricing, https://www.monarch.com/for-couples, https://www.monarch.com/compare/ynab-alternative,
+// https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards
+// [affiliate link pending approval: Rocket Money (official affiliate page rocketmoney.com/affiliates; not applied). Plain nofollow link until approved.]
+const CHECKED = 'Oct 27, 2026';
+const monarch = bySlug('monarch');
+const rocket = bySlug('rocket-money');
+
+const rows = [
+  ['Price', 'Free plan. Premium: you choose the price, typically $7–$14 a month. Premium+: $15 a month plus tax.', '$99.99 a year or $14.99 a month (Core). Plus is $199.99 a year. No free plan.'],
+  ['Free trial', '7 days of Premium for new members.', '7 days.'],
+  ['Devices', 'iPhone and Android. Web access needs Premium.', 'Web, iPhone and Android.'],
+  ['Partner sharing', 'Premium adds a second login for a partner, spouse or advisor.', 'Household members join free, each with their own login, and see all accounts.'],
+  ['Budgets', 'Free: a total budget and a few category budgets. Premium: unlimited.', 'Flex or category budgets with rollovers. First budget built from a six-month average.'],
+  ['Subscriptions', 'Finds recurring charges on every plan. Premium: the team cancels many for you.', 'Finds recurring bills and shows them on a calendar. No cancellation service.'],
+  ['Bill negotiation', 'Fee of 35–60% of the first year’s savings (you choose). No fee on Premium+.', 'Not offered.'],
+];
+
+const faq = [
+  { q: 'Is Rocket Money cheaper than Monarch?', a: 'It can be. Rocket Money has a free plan. Premium is “pay what you think is fair,” typically $7 to $14 a month ($84 to $168 a year), and Premium+ is $15 a month plus tax. Monarch Core is $99.99 a year or $14.99 a month. At $9 a month or more, Rocket Money Premium costs more over a year than Monarch’s annual plan.' },
+  { q: 'Can Monarch cancel my subscriptions like Rocket Money?', a: 'No. Monarch finds recurring bills and subscriptions and shows them on a calendar, but you cancel them yourself. Rocket Money Premium members can have Rocket Money’s team cancel many subscriptions for them; Rocket Money says that usually takes 2 to 10 days.' },
+  { q: 'How does Rocket Money bill negotiation work?', a: 'Rocket Money’s team contacts providers like phone, cable and internet companies to ask for a lower rate. If it works, you pay a one-time fee of 35% to 60% of the first year’s savings, and you pick the percentage. If it doesn’t work, you pay nothing. Premium+ includes bill negotiation with no fee.' },
+  { q: 'Can my partner and I share Rocket Money?', a: 'Yes, on Premium. Rocket Money says account sharing creates a second login so a partner, spouse or advisor can see your finances. The free plan doesn’t include sharing. Monarch includes free logins for every household member on its paid plans.' },
+  { q: 'Which is better for budgeting?', a: 'Monarch, if budgeting is the main job. Its budgets support rollovers and goals and start from your real spending. Rocket Money’s free plan has only a few category budgets; Premium unlocks unlimited budgets, rules and splits, but Rocket Money is built around subscriptions and bills first.' },
+];
+
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Compare apps', path: '/compare' }, { name: 'Rocket Money vs Monarch', path: '/rocket-money-vs-monarch' }]),
+  itemList('Rocket Money vs Monarch', [rocket, monarch]),
+  faqLd(faq),
+];
+---
+<Base title="Rocket Money vs Monarch: price, budgeting and subscriptions (Oct 2026)" description="Rocket Money vs Monarch, checked on both official sites Oct 27, 2026: free plan vs $99.99 a year, subscription cancellation and bill negotiation vs deeper budgets and household sharing." jsonLd={jsonLd}>
+  <p class="meta"><a href="/compare">All apps</a> › Rocket Money vs Monarch</p>
+  <h1>Rocket Money vs Monarch: which one do you need?</h1>
+  <p class="lede">They solve different problems. Rocket Money is best at finding and cutting recurring costs: it spots subscriptions, can cancel them for you, and can negotiate bills. Monarch is a full budgeting and planning app for a household. Nothing stops you from using Rocket Money’s free plan to track subscriptions alongside Monarch for the budget.</p>
+  <p class="notice small">How we compared: each company’s own pricing pages and help center, checked {CHECKED}. We haven’t done hands-on testing, so nothing here comes from our own use. Our Monarch link is a referral link (labeled below). We have no relationship with Rocket Money.</p>
+
+  <h2 id="table">Rocket Money vs Monarch at a glance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Rocket Money</th><th>Monarch</th></tr></thead>
+      <tbody>{rows.map(([k, a, b]) => <tr><th scope="row">{k}</th><td>{a}</td><td>{b}</td></tr>)}</tbody>
+    </table>
+  </div>
+
+  <h2 id="price">Price: free vs paid, with a catch</h2>
+  <p>Rocket Money has a free plan. Its Premium plan is “pay what you think is fair”: Rocket Money says that typically ranges from $7 to $14 a month and can vary by platform. Premium is billed monthly after a 7-day free trial, at the price you picked. Premium+ is a fixed $15 a month plus tax and adds Rowan, an AI assistant you text, plus fee-free bill negotiation.</p>
+  <p>Monarch has no free plan. Core is $99.99 a year or $14.99 a month after a 7-day free trial. Through a referral link, the first year of annual Core is 50% off when you pay on the web.</p>
+  <p>So if Rocket Money’s free plan covers what you need, it wins on price. If you’d pay for Premium at $9 a month or more, that’s more per year than Monarch’s annual plan.</p>
+
+  <h2 id="subscriptions">Subscriptions and bills</h2>
+  <p>This is Rocket Money’s strength. Every plan tracks recurring subscriptions and upcoming bills. On Premium, Rocket Money’s team can cancel many unwanted subscriptions for you, which it says usually takes 2 to 10 days. Free users have to cancel on their own.</p>
+  <p>Bill negotiation is open to everyone. Rocket Money’s negotiators contact providers like phone, cable and internet companies. If they lower your bill, you pay 35% to 60% of the first year’s savings (you choose the percentage); on Premium+ there’s no fee. If they can’t, you pay nothing.</p>
+  <p>Monarch also finds recurring bills in your transactions and puts them on a calendar, but it doesn’t cancel or negotiate anything for you.</p>
+
+  <h2 id="budget">Budgeting and planning</h2>
+  <p>Monarch is built around the budget. It fills in your first budget from a six-month average of your actual spending, offers flex or category budgets, and carries leftover money forward with rollovers. Save Up goals track a target and a date, and a debt view projects a payoff date. Investments and net worth sit in the same app.</p>
+  <p>Rocket Money’s free plan gives you a monthly snapshot of spending and income, a total budget, and a few category budgets. Premium adds unlimited budgets and custom categories, transaction rules and splits, net worth, and Financial Goals that move money into savings automatically.</p>
+
+  <h2 id="partners">Sharing with a partner</h2>
+  <p>Rocket Money’s account sharing is a Premium feature. It creates a second login so a partner, spouse or advisor can see your finances. Monarch includes household sharing on its paid plans: each member gets their own login at no extra cost, and everyone sees all accounts and transactions.</p>
+
+  <h2 id="verdict">Who should pick which</h2>
+  <ul>
+    <li><strong>Pick Rocket Money</strong> if your main goal is to cut subscriptions and lower bills, or you want a free app to see where money goes.</li>
+    <li><strong>Pick Monarch</strong> if you want to plan a household budget together, save toward goals, and track investments in one place.</li>
+    <li>Want a stricter budget method? See <a href="/monarch-vs-ynab">Monarch vs YNAB</a> or <a href="/everydollar-vs-monarch">EveryDollar vs Monarch</a>.</li>
+  </ul>
+
+  <ReferralCta app={monarch} />
+  <p><a href="https://www.rocketmoney.com/" rel="nofollow noopener">Try Rocket Money on rocketmoney.com</a> ↗</p>
+
+  <h2 id="faq">Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  <p class="meta">Sources, checked {CHECKED}: <a href="https://www.rocketmoney.com/learn/personal-finance/how-much-does-rocket-money-cost" rel="nofollow">Rocket Money pricing breakdown</a>, <a href="https://help.rocketmoney.com/en/articles/2217739-how-much-does-rocket-money-cost" rel="nofollow">Rocket Money help: cost</a>, <a href="https://www.monarch.com/pricing" rel="nofollow">Monarch pricing</a>, <a href="https://www.monarch.com/for-couples" rel="nofollow">Monarch for couples</a>, <a href="https://www.monarch.com/compare/ynab-alternative" rel="nofollow">Monarch budgeting FAQ</a>, <a href="https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards" rel="nofollow">Monarch referral terms</a>. Prices change; check before you subscribe.</p>
+  <p>More: <a href="/apps/rocket-money">Rocket Money</a> · <a href="/apps/monarch">Monarch review</a> · <a href="/compare">Compare all apps</a></p>
+</Base>

@@ -1,0 +1,86 @@
+---
+import ReferralCta from '../components/ReferralCta.astro';
+import Base from '../layouts/Base.astro';
+import { bySlug } from '../data/apps';
+import { breadcrumbs, faqLd, itemList } from '../lib';
+
+// Facts checked on official pages Oct 27, 2026:
+// https://www.ramseysolutions.com/ramseyplus/everydollar (pricing + FAQ),
+// https://everydollar.help.ramseysolutions.com/hc/en-us/articles/36246135475469-Household-Inviting-a-Spouse-To-Share-a-Budget (updated Sep 2, 2026),
+// https://www.monarch.com/pricing, https://www.monarch.com/for-couples, https://www.monarch.com/compare/ynab-alternative,
+// https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards
+// [affiliate link pending approval: EveryDollar / Ramsey (no official affiliate page checked). Plain nofollow link until approved.]
+const CHECKED = 'Oct 27, 2026';
+const monarch = bySlug('monarch');
+const everydollar = bySlug('everydollar');
+
+const rows = [
+  ['Price', 'Free version. Premium: $79.99 a year ($6.67 a month) or $17.99 a month.', '$99.99 a year or $14.99 a month (Core). Plus is $199.99 a year. No free plan.'],
+  ['Free trial', '14 days of Premium (new users only).', '7 days.'],
+  ['Bank connection', 'Premium only (through Mastercard Connect and Plaid). Free version is manual entry.', 'Yes, on every plan.'],
+  ['Method', 'Zero-based: plan every dollar before the month starts. Debt snowball built in.', 'Plans against expected income; flex or category budgets with rollovers. Compares avalanche and snowball for debt.'],
+  ['Sharing', 'Household feature: a spouse joins and both see and edit the owner’s budget.', 'Household members join free, each with their own login, and see all accounts.'],
+  ['Devices', 'Computer, phone or tablet.', 'Web, iPhone and Android.'],
+  ['Beyond the budget', 'Premium: reports, CSV export, financial roadmap, projected net worth, coaching.', 'Investments with holdings, net worth, goals; Plus adds forecasting.'],
+];
+
+const faq = [
+  { q: 'Is EveryDollar free?', a: 'Yes, there is a free version you can use as long as you want. It lets you build a monthly budget with unlimited categories, enter transactions by hand, set up sinking funds and split transactions. Connecting your bank to import transactions needs Premium, which costs $79.99 a year or $17.99 a month after a 14-day free trial.' },
+  { q: 'Is EveryDollar cheaper than Monarch?', a: 'Yes. The free version costs nothing, and Premium on the annual plan is $79.99 a year versus $99.99 for Monarch Core. On monthly billing it flips: EveryDollar Premium is $17.99 a month and Monarch is $14.99.' },
+  { q: 'Can my spouse and I share an EveryDollar budget?', a: 'Yes. EveryDollar’s household feature lets you invite your spouse from your Ramsey account settings. Both of you see and edit the household owner’s budget; your spouse’s own budget is hidden while they are in your household and comes back if you unlink. Monarch gives each household member their own login to one shared view of all accounts.' },
+  { q: 'Which is better for paying off debt?', a: 'EveryDollar is built around the debt snowball: pay debts from smallest to largest balance, and it tracks your progress. Monarch has a debt payoff view with a projected debt-free date and lets you compare the avalanche and snowball methods.' },
+  { q: 'Can I do zero-based budgeting in Monarch?', a: 'Yes. Monarch says you plan how each month’s expected income covers expenses and savings, and it shows what’s left to budget so you can bring it to zero. EveryDollar does the same thing as its core method.' },
+];
+
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Compare apps', path: '/compare' }, { name: 'EveryDollar vs Monarch', path: '/everydollar-vs-monarch' }]),
+  itemList('EveryDollar vs Monarch', [everydollar, monarch]),
+  faqLd(faq),
+];
+---
+<Base title="EveryDollar vs Monarch: free plan, price and budgeting method (Oct 2026)" description="EveryDollar vs Monarch, checked on both official sites Oct 27, 2026: EveryDollar has a free manual version and $79.99 Premium; Monarch is $99.99 a year with bank sync, investments and household logins." jsonLd={jsonLd}>
+  <p class="meta"><a href="/compare">All apps</a> › EveryDollar vs Monarch</p>
+  <h1>EveryDollar vs Monarch: which budget app fits your family?</h1>
+  <p class="lede">EveryDollar is a zero-based budget with a debt-payoff focus, and it has a genuinely free version if you don’t mind typing in transactions. Monarch costs more, syncs your accounts on every plan, and adds investments, net worth and goals for the whole household.</p>
+  <p class="notice small">How we compared: Ramsey Solutions’ EveryDollar pages and help center, and Monarch’s pricing and help pages, checked {CHECKED}. We haven’t done hands-on testing, so nothing here comes from our own use. Our Monarch link is a referral link (labeled below). We have no relationship with Ramsey Solutions.</p>
+
+  <h2 id="table">EveryDollar vs Monarch at a glance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>EveryDollar</th><th>Monarch</th></tr></thead>
+      <tbody>{rows.map(([k, a, b]) => <tr><th scope="row">{k}</th><td>{a}</td><td>{b}</td></tr>)}</tbody>
+    </table>
+  </div>
+
+  <h2 id="price">Price</h2>
+  <p>EveryDollar’s free version has no time limit. Premium costs $79.99 a year (Ramsey shows that as $6.67 a month) or $17.99 a month, after a 14-day free trial for new users. Monarch Core is $99.99 a year or $14.99 a month after a 7-day trial; through a referral link paid on the web, the first year of annual Core is 50% off.</p>
+  <p>On annual plans, EveryDollar Premium is $20 a year cheaper. On monthly plans, Monarch is $3 a month cheaper. If you subscribe to EveryDollar through Apple or Google Play, you have to cancel there; EveryDollar says it can’t cancel or refund those.</p>
+
+  <h2 id="free">What the free EveryDollar version does</h2>
+  <p>Ramsey lists these in the free version: a monthly budget with unlimited categories, access from a computer, phone or tablet, manual transaction entry, sinking funds, splitting transactions across categories, bill due dates, and help from a live person. It does not connect to your bank; Premium adds that and streams transactions in automatically.</p>
+  <p>Monarch has no free version. Every plan connects to your accounts.</p>
+
+  <h2 id="method">Budgeting method</h2>
+  <p>EveryDollar is zero-based: before the month begins, you give every dollar of income a job until income minus expenses equals zero, then track what’s left in each category. It’s built around Ramsey’s debt snowball, paying debts from smallest to largest balance. If you fall behind, it recommends a new payment amount and where to find the money.</p>
+  <p>Monarch can work the same way. It plans against the income you expect for the month and shows what’s left to budget so you can bring it to zero, and rollovers give you envelope-style categories. It fills in your first budget from six months of real spending. For debt, it projects a payoff date and lets you compare avalanche (highest interest first) with snowball.</p>
+
+  <h2 id="partners">Sharing with a spouse</h2>
+  <p>EveryDollar’s household feature lets you invite a spouse from your Ramsey account settings. Once they accept, both of you see and edit the household owner’s budget. Your spouse’s own budget isn’t deleted; it’s hidden while they’re in your household and comes back if you remove the link.</p>
+  <p>In Monarch, each household member gets their own login under one subscription at no extra cost, and Monarch says everyone sees all connected accounts and transactions.</p>
+
+  <h2 id="verdict">Who should pick which</h2>
+  <ul>
+    <li><strong>Pick EveryDollar</strong> if you follow the Ramsey plan, you’re focused on paying off debt, or you want to budget for free and don’t mind entering transactions by hand.</li>
+    <li><strong>Pick Monarch</strong> if you want automatic syncing without paying extra for it, plus investments, net worth and goals in the same app.</li>
+    <li>Also weighing YNAB? See <a href="/ynab-vs-everydollar">YNAB vs EveryDollar</a> and <a href="/monarch-vs-ynab">Monarch vs YNAB</a>.</li>
+  </ul>
+
+  <ReferralCta app={monarch} />
+  <p><a href="https://www.ramseysolutions.com/ramseyplus/everydollar" rel="nofollow noopener">See EveryDollar on ramseysolutions.com</a> ↗</p>
+
+  <h2 id="faq">Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  <p class="meta">Sources, checked {CHECKED}: <a href="https://www.ramseysolutions.com/ramseyplus/everydollar" rel="nofollow">EveryDollar pricing and FAQ</a>, <a href="https://everydollar.help.ramseysolutions.com/hc/en-us/articles/36246135475469-Household-Inviting-a-Spouse-To-Share-a-Budget" rel="nofollow">EveryDollar household help</a>, <a href="https://www.monarch.com/pricing" rel="nofollow">Monarch pricing</a>, <a href="https://www.monarch.com/for-couples" rel="nofollow">Monarch for couples</a>, <a href="https://www.monarch.com/compare/ynab-alternative" rel="nofollow">Monarch budgeting FAQ</a>, <a href="https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards" rel="nofollow">Monarch referral terms</a>. Prices change; check before you subscribe.</p>
+  <p>More: <a href="/apps/everydollar">EveryDollar</a> · <a href="/apps/monarch">Monarch review</a> · <a href="/compare">Compare all apps</a></p>
+</Base>

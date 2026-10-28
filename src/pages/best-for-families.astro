@@ -3,11 +3,12 @@ import ReferralCta from '../components/ReferralCta.astro';
 import Base from '../layouts/Base.astro';
 import { bySlug, CHECKED } from '../data/apps';
 import { breadcrumbs, itemList, faqLd } from '../lib';
+import { COMPARISONS } from '../data/comparisons';
 
 const groups = [
   {
     id: 'share', q: 'Which budgeting apps let two partners share one budget?',
-    intro: 'These apps say on their own sites that a partner or household can use the same budget:',
+    intro: 'These apps say on their own sites that a partner or household can use the same budget (more detail on what each partner can see in our couples guide):',
     slugs: ['monarch', 'ynab', 'goodbudget', 'honeydue', 'quicken-simplifi', 'spendee', 'buddy'],
   },
   {
@@ -44,9 +45,10 @@ const jsonLd = [
   faqLd(faq),
 ];
 ---
-<Base title={`Best budgeting apps for families and couples with young kids (${CHECKED})`} description="Which budgeting apps let partners share one budget, which are free, and which help plan for childcare and other irregular kid costs. Prices checked Oct 2026." jsonLd={jsonLd}>
-  <h1>Budgeting apps for families and couples with young kids</h1>
-  <p class="lede">Kids add new, lumpy costs and a second person to agree with. Here’s which apps fit that, grouped by what a family usually needs.</p>
+<Base title={`Best budgeting apps for families with young kids (${CHECKED})`} description="Budgeting apps for families with babies, toddlers and preschoolers: which let both parents share one budget, which are free, and which help plan for childcare and other lumpy kid costs. Prices checked Oct 2026." jsonLd={jsonLd}>
+  <h1>Budgeting apps for families with young kids</h1>
+  <p class="lede">Kids add new, lumpy costs and a second person to agree with. Here’s which apps fit that, grouped by what a family usually needs. If your main question is how two partners share money, see <a href="/budgeting-apps-for-couples">budgeting apps for couples</a>.</p>
+  <p>Not sure what childcare will cost yet? Our <a href="/childcare-cost-calculator">childcare cost calculator</a> estimates it by state, care type and child age, using federal price data.</p>
   <p class="notice small">How we picked: each app’s published features and prices, checked on its official site in {CHECKED}. We haven’t finished hands-on testing yet, and there are no paid placements. Some apps have referral links, which are labeled and don’t affect which apps we list or what we say.</p>
 
   {groups.map((g) => (
@@ -67,6 +69,10 @@ const jsonLd = [
 
   <h2 id="zeta">What happened to Zeta, the couples banking app?</h2>
   <p>Zeta shut down and closed all accounts on May 9, 2025, and its team joined Acorns. Many older “best apps for couples” lists still recommend it. <a href="/apps/zeta">More on Zeta</a>.</p>
+
+  <h2 id="finalists">Down to two apps?</h2>
+  <p>Our head-to-head pages compare price, trials and partner sharing, checked on each official site:</p>
+  <ul>{COMPARISONS.map((c) => <li><a href={c.path}>{c.label}</a></li>)}</ul>
 
   <p>Want everything side by side? <a href="/compare">Compare all apps</a>.</p>
 </Base>

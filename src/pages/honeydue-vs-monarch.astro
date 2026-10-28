@@ -1,0 +1,85 @@
+---
+import ReferralCta from '../components/ReferralCta.astro';
+import Base from '../layouts/Base.astro';
+import { bySlug } from '../data/apps';
+import { breadcrumbs, faqLd, itemList } from '../lib';
+
+// Facts checked on official pages Oct 27, 2026:
+// https://www.honeydue.com/, https://support.honeydue.com/en/articles/3283211-how-to-change-what-my-partner-can-see,
+// https://apps.apple.com/us/app/honeydue-couples-finance/id1157633945 (description, in-app purchases, version history),
+// https://play.google.com/store/apps/details?id=com.honeydue.honeydue (listed, updated Jun 18, 2026),
+// https://www.monarch.com/pricing, https://www.monarch.com/for-couples, https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards
+// Honeydue: no affiliate program found. Plain nofollow link.
+const CHECKED = 'Oct 27, 2026';
+const monarch = bySlug('monarch');
+const honeydue = bySlug('honeydue');
+
+const rows = [
+  ['Price', 'Free. Optional monthly tips ($0.99–$9.99) in the App Store. The app shows ads.', '$99.99 a year or $14.99 a month (Core). No ads.'],
+  ['Free trial', 'Not needed; the app is free.', '7 days.'],
+  ['Devices', 'iPhone and Android. No web app listed.', 'Web, iPhone and Android.'],
+  ['What your partner sees', 'You choose per account: balances and transactions, balances only, or nothing. You can hide a single transaction.', 'Everything. Monarch says all household members see all accounts and transactions.'],
+  ['Budgeting', 'Monthly spending limits per category, with alerts as you near them. Custom categories.', 'Flex or category budgets with rollovers, goals, cash flow and net worth.'],
+  ['Couple features', 'Bill reminders, emoji reactions and questions on purchases, splitting expenses and settling up.', 'Separate logins, tagging a partner to review a transaction, shared goals, monthly summary.'],
+];
+
+const faq = [
+  { q: 'Is Honeydue really free?', a: 'Yes. Honeydue’s App Store listing says the app is free. It sells optional monthly “tips” from $0.99 to $9.99 as in-app purchases, and the listing notes that the app contains advertising. Monarch has no free plan; Core is $99.99 a year or $14.99 a month, with no ads.' },
+  { q: 'Can I keep an account private from my partner?', a: 'In Honeydue, yes. For each account you own, you choose whether your partner sees balances and transactions, balances only, or nothing, and you can hide an individual transaction. In Monarch, no: Monarch says everyone in the household has full visibility into all accounts and transactions.' },
+  { q: 'Does Honeydue still have a joint bank account or debit card?', a: 'No. Honeydue’s App Store release notes say its debit card program closed to new users and was discontinued on September 1, 2023, with remaining funds mailed by check. The budgeting app itself is still listed on the App Store and Google Play.' },
+  { q: 'Does Honeydue work on a computer?', a: 'We found only the iPhone and Android apps. Monarch works on the web, iPhone and Android.' },
+  { q: 'Which is better for couples who are combining finances?', a: 'If you are putting everything together and want one plan, Monarch’s shared view, goals and budgets do more. If you are keeping some money separate and mainly want to see shared bills and spending, Honeydue covers that for free.' },
+];
+
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Compare apps', path: '/compare' }, { name: 'Honeydue vs Monarch', path: '/honeydue-vs-monarch' }]),
+  itemList('Honeydue vs Monarch', [honeydue, monarch]),
+  faqLd(faq),
+];
+---
+<Base title="Honeydue vs Monarch for couples: privacy, price and budgets (Oct 2026)" description="Honeydue vs Monarch, checked Oct 27, 2026: Honeydue is free and lets each partner hide accounts; Monarch is $99.99 a year and shows everything to everyone. Which fits your relationship with money." jsonLd={jsonLd}>
+  <p class="meta"><a href="/compare">All apps</a> › Honeydue vs Monarch</p>
+  <h1>Honeydue vs Monarch: which couples app fits you?</h1>
+  <p class="lede">The real difference is privacy. Honeydue lets each partner decide what the other sees, account by account, and it’s free. Monarch shows everyone in the household everything, costs $99.99 a year, and gives you much deeper budgeting and planning in return.</p>
+  <p class="notice small">How we compared: each company’s own website, help center and app store listings, checked {CHECKED}. We haven’t done hands-on testing, so nothing here comes from our own use. Our Monarch link is a referral link (labeled below). We have no relationship with Honeydue.</p>
+
+  <h2 id="table">Honeydue vs Monarch at a glance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th></th><th>Honeydue</th><th>Monarch</th></tr></thead>
+      <tbody>{rows.map(([k, a, b]) => <tr><th scope="row">{k}</th><td>{a}</td><td>{b}</td></tr>)}</tbody>
+    </table>
+  </div>
+
+  <h2 id="privacy">What your partner can see</h2>
+  <p>This decides it for many couples. In Honeydue, you open an account you own and choose “Share both balances and transactions,” “Share balances only,” or “Nothing at all.” You can also hide one transaction from an otherwise shared account; Honeydue’s own example is a surprise anniversary gift.</p>
+  <p>Monarch takes the opposite approach. Partners each get their own login under one subscription, and Monarch says both have full visibility into all accounts and transactions in the household. Monarch tells you to make sure you’re comfortable with that before you invite anyone.</p>
+  <p>If you keep a joint account for rent, daycare and groceries plus your own personal accounts, Honeydue matches that setup. If you’ve fully merged your money, Monarch’s all-in view is simpler.</p>
+
+  <h2 id="price">Price</h2>
+  <p>Honeydue is free. Its App Store listing offers optional monthly tips from $0.99 to $9.99 and notes that the app contains advertising. Monarch has no free plan: Core is $99.99 a year or $14.99 a month, and Monarch says it never shows ads or sells your data. Through a referral link, the first year of annual Core is 50% off when you pay on the web.</p>
+
+  <h2 id="features">What each does day to day</h2>
+  <p>Honeydue’s App Store description lists: all your balances in one place, monthly household spending limits per category with a heads-up when you’re close, custom categories, bill reminders, emoji reactions and questions on each other’s purchases, and a way to divide expenses and settle up. It says it supports most U.S. banks.</p>
+  <p>Monarch brings separate and joint accounts into one dashboard and adds budgets with rollovers, shared goals (even if your money sits in separate accounts), investment tracking, net worth, reports and a monthly summary for money check-ins.</p>
+  <p>Honeydue is about seeing shared money and talking about it. Monarch is about planning it. If you need to save for something big, like a year of daycare or a down payment, Monarch has the tools for that.</p>
+
+  <h2 id="status">A note on Honeydue’s banking features</h2>
+  <p>Older reviews mention Honeydue’s joint debit card. Honeydue’s App Store release notes say that program closed to new users in August 2023 and was discontinued on September 1, 2023. The budgeting app is still listed on the App Store and on Google Play, which showed an update on June 18, 2026.</p>
+
+  <h2 id="verdict">Who should pick which</h2>
+  <ul>
+    <li><strong>Pick Honeydue</strong> if you keep some accounts separate, want to choose what your partner sees, and don’t want to pay.</li>
+    <li><strong>Pick Monarch</strong> if you’ve combined your finances, want real budgets and goals, use a computer for money tasks, or want an app with no ads.</li>
+    <li>Comparing more couples apps? See <a href="/budgeting-apps-for-couples">budgeting apps for couples</a> and <a href="/monarch-vs-ynab">Monarch vs YNAB</a>.</li>
+  </ul>
+
+  <ReferralCta app={monarch} />
+  <p><a href="https://www.honeydue.com/" rel="nofollow noopener">Get Honeydue on honeydue.com</a> ↗</p>
+
+  <h2 id="faq">Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  <p class="meta">Sources, checked {CHECKED}: <a href="https://www.honeydue.com/" rel="nofollow">Honeydue</a>, <a href="https://support.honeydue.com/en/articles/3283211-how-to-change-what-my-partner-can-see" rel="nofollow">Honeydue sharing help</a>, <a href="https://apps.apple.com/us/app/honeydue-couples-finance/id1157633945" rel="nofollow">Honeydue on the App Store</a>, <a href="https://play.google.com/store/apps/details?id=com.honeydue.honeydue" rel="nofollow">Honeydue on Google Play</a>, <a href="https://www.monarch.com/pricing" rel="nofollow">Monarch pricing</a>, <a href="https://www.monarch.com/for-couples" rel="nofollow">Monarch for couples</a>, <a href="https://help.monarch.com/hc/en-us/articles/360058914191-Referral-Rewards" rel="nofollow">Monarch referral terms</a>. Prices change; check before you subscribe.</p>
+  <p>More: <a href="/apps/honeydue">Honeydue</a> · <a href="/apps/monarch">Monarch review</a> · <a href="/compare">Compare all apps</a></p>
+</Base>

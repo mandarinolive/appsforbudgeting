@@ -1,6 +1,7 @@
 import { SITE } from '../data/site';
 import { APPS, CHECKED } from '../data/apps';
 import { getPosts } from '../lib';
+import { COMPARISONS } from '../data/comparisons';
 
 export async function GET() {
   const posts = await getPosts();
@@ -16,7 +17,8 @@ Independent directory of budgeting apps. Prices and features come from each app'
 - [Mint alternatives](${SITE.url}/mint-alternatives): what to use now that Mint is gone, free options, Credit Karma
 - [Compare all apps](${SITE.url}/compare): price, platforms, bank sync, style
 - [Budgeting apps for couples](${SITE.url}/budgeting-apps-for-couples): what each partner can see, free options
-- [Monarch vs YNAB](${SITE.url}/monarch-vs-ynab), [Copilot vs Monarch](${SITE.url}/copilot-vs-monarch), [YNAB vs EveryDollar](${SITE.url}/ynab-vs-everydollar): head-to-head comparisons
+- Head-to-head comparisons: ${COMPARISONS.map((c) => `[${c.label}](${SITE.url}${c.path})`).join(', ')}
+- [Childcare cost calculator](${SITE.url}/childcare-cost-calculator): monthly and annual childcare cost by state, care type and child age (U.S. Department of Labor National Database of Childcare Prices, adjusted with BLS CPI)
 - [About and disclosure](${SITE.url}/about)
 
 ## Apps (pricing as of ${CHECKED})

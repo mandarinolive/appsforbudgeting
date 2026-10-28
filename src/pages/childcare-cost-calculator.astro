@@ -1,0 +1,186 @@
+---
+import ReferralCta from '../components/ReferralCta.astro';
+import Base from '../layouts/Base.astro';
+import { bySlug } from '../data/apps';
+import { breadcrumbs, faqLd, abs } from '../lib';
+import { STATES, CPI, inflate, monthly, SOURCES, DATA_CHECKED } from '../data/childcare';
+
+const monarch = bySlug('monarch');
+const names = Object.keys(STATES).sort();
+const has = (s: string) => Boolean(STATES[s].center || STATES[s].family);
+const r10 = (n: number) => Math.round(n / 10) * 10;
+const fmt = (n: number) => '$' + Math.round(n).toLocaleString('en-US');
+const cell = (s: string, i: number) => {
+  const c = STATES[s].center;
+  const w = c?.weekly[i];
+  return c && w != null ? fmt(r10(monthly(inflate(w, c.year)))) : '—';
+};
+const yearNote = (s: string) => {
+  const ys = [...new Set([STATES[s].center?.year, STATES[s].family?.year].filter(Boolean))];
+  return ys.length && !(ys.length === 1 && ys[0] === 2022) ? ` (${ys.join(', ')} data)` : '';
+};
+const ca = STATES['California'].center!;
+const caInfant = r10(monthly(inflate(ca.weekly[0]!, ca.year)));
+
+const faq = [
+  { q: 'How much does childcare cost per month?', a: `It depends heavily on the state, the child’s age and the type of care. In the U.S. Department of Labor’s National Database of Childcare Prices, the 2022 statewide median for full-time infant care at a center ranged from about $119 a week in Mississippi to $490 a week in the District of Columbia, among places with 2022 data. Pick your state in the calculator above to see the median, adjusted to ${CPI.latest.label} prices.` },
+  { q: 'Where do these numbers come from?', a: 'Prices are statewide medians for full-time care from the U.S. Department of Labor Women’s Bureau National Database of Childcare Prices (NDCP), which compiles state market rate surveys. The latest year is 2022. We adjust them to current prices with the Bureau of Labor Statistics consumer price index for day care and preschool.' },
+  { q: 'How much of your income should childcare be?', a: 'In 2016, the U.S. Department of Health and Human Services set 7% of family income as its benchmark for affordable childcare co-payments in the federal subsidy program (CCDF). The 2024 rule capped subsidy co-payments at 7%; a 2026 rule removed that federal cap as of July 13, 2026, leaving it to states. 7% is still a useful yardstick, not a rule for private-pay families.' },
+  { q: 'Why is my local daycare more expensive than the calculator says?', a: 'The calculator uses statewide medians, the middle of each state’s range, so many families pay more. The Department of Labor itself warns that state medians hide big local differences. If you have a real quote, enter it in the calculator to see the monthly cost and share of income.' },
+  { q: 'Is a family child care home cheaper than a daycare center?', a: 'Usually, in this data. Licensed family child care homes (care in the provider’s home) had a lower statewide median than centers for infants in 48 of the 49 states and territories with both prices, and for toddlers and preschoolers in 46 of 49. Check both options near you.' },
+];
+const jsonLd = [
+  breadcrumbs([{ name: 'Home', path: '/' }, { name: 'Childcare cost calculator', path: '/childcare-cost-calculator' }]),
+  {
+    '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Childcare cost calculator', url: abs('/childcare-cost-calculator'),
+    applicationCategory: 'FinanceApplication', operatingSystem: 'Web', isAccessibleForFree: true,
+    description: 'Estimate monthly and annual childcare cost by state, care type and child age, and the share of household income it takes.',
+  },
+  {
+    '@context': 'https://schema.org', '@type': 'Dataset', name: 'National Database of Childcare Prices: State-Level Estimates 2022',
+    creator: { '@type': 'Organization', name: 'U.S. Department of Labor, Women’s Bureau' }, url: SOURCES.ndcp,
+  },
+  faqLd(faq),
+];
+const clientData = Object.fromEntries(names.map((s) => [s, STATES[s]]));
+---
+<Base title={`Childcare cost calculator by state (${CPI.latest.label} prices)`} description="Estimate what daycare or a family child care home costs per month in your state, by child age and hours, and what share of your income it takes. Federal data, sources shown." jsonLd={jsonLd}>
+  <p class="meta"><a href="/best-for-families">For families</a> › Childcare cost calculator</p>
+  <h1>Childcare cost calculator</h1>
+  <p class="lede">Pick your state, the type of care and your kids’ ages. You’ll get a typical monthly and yearly cost and, if you add your income, the share of it that childcare takes.</p>
+  <p class="notice small">Data: statewide median prices for full-time care from the U.S. Department of Labor’s <a href={SOURCES.ndcp} rel="nofollow">National Database of Childcare Prices</a> (latest year 2022), adjusted to {CPI.latest.label} prices with the <a href={SOURCES.cpi} rel="nofollow">BLS price index for day care and preschool</a>. Checked {DATA_CHECKED}. These are estimates, not quotes.</p>
+
+  <form id="calc" class="calc" onsubmit="return false">
+    <label>State
+      <select id="state" name="state">
+        {names.map((s) => <option value={s} selected={s === 'California'} disabled={!has(s)}>{s}{has(s) ? '' : ' (no data)'}</option>)}
+      </select>
+    </label>
+    <label>Type of care
+      <select id="type" name="type">
+        <option value="center">Child care center (daycare)</option>
+        <option value="family">Family child care home</option>
+      </select>
+    </label>
+    <fieldset>
+      <legend>Children in care</legend>
+      {[0, 1, 2].map((i) => (
+        <label>Child {i + 1}
+          <select class="kid" name={`kid${i}`}>
+            {i > 0 && <option value="">None</option>}
+            <option value="infant" selected={i === 0}>Infant (0–23 months)</option>
+            <option value="toddler">Toddler (2 years)</option>
+            <option value="preschool">Preschool (3–4 years)</option>
+            <option value="schoolage">School-age (before/after school)</option>
+          </select>
+        </label>
+      ))}
+    </fieldset>
+    <label>Hours of care per week
+      <input id="hours" name="hours" type="number" min="5" max="40" step="1" value="40" inputmode="numeric" />
+    </label>
+    <label>Household income per year, before tax (optional)
+      <input id="income" name="income" type="number" min="0" step="1000" placeholder="e.g. 120000" inputmode="numeric" />
+    </label>
+    <label>Have a real quote? Monthly total, all kids (optional)
+      <input id="quote" name="quote" type="number" min="0" step="10" placeholder="e.g. 2400" inputmode="numeric" />
+    </label>
+  </form>
+
+  <div id="out" class="calc-out" aria-live="polite">
+    <noscript><p>The calculator needs JavaScript. The table below has the same state numbers.</p></noscript>
+  </div>
+
+  <h2 id="read">How to read the result</h2>
+  <ul>
+    <li><strong>It’s a statewide median,</strong> the middle of the range for the whole state, so many families pay more. The Department of Labor notes that state figures tend to understate prices in urban areas. In California, for example, the statewide center infant median works out to about {fmt(caInfant)} a month in {CPI.latest.label} prices; a city quote can be well above that.</li>
+    <li><strong>The data is from 2022.</strong> That’s the latest year in the federal database. We scale it with the BLS consumer price index for day care and preschool, which rose {Math.round((CPI.latest.value / CPI.annual[2022] - 1) * 100)}% from the 2022 average to {CPI.latest.label}. Your provider may have raised prices more or less than that.</li>
+    <li><strong>Prices are for full-time care.</strong> Under 40 hours a week, we scale the price down by hours. Part-time care often costs more per hour than full-time, so a part-time estimate is likely low.</li>
+    <li><strong>No sibling discounts.</strong> Many providers offer one. The calculator adds each child at the full price.</li>
+    <li><strong>School-age prices vary the most.</strong> States survey them differently (some only before and after school), so treat that number as rough.</li>
+    <li><strong>Missing states.</strong> The database has no recent prices for Indiana or New Mexico, and only 2020 or 2021 data for a few states (shown in the table). Enter a real quote for those.</li>
+  </ul>
+
+  <h2 id="budget">Putting childcare in your budget</h2>
+  <p>A few things make a childcare bill easier to plan for:</p>
+  <ul>
+    <li><strong>Budget the annual total, not just the monthly bill.</strong> Ask each provider about registration fees, deposits, and whether you pay for holidays and closure weeks. For school-age kids, add summer care separately.</li>
+    <li><strong>Check the tax breaks.</strong> The IRS lets you leave employer dependent care benefits, such as a dependent care FSA, out of your taxable income, and the child and dependent care credit covers a percentage of work-related care costs. Dollar limits apply and can change; see <a href="https://www.irs.gov/taxtopics/tc602" rel="nofollow">IRS Topic 602</a>.</li>
+    <li><strong>Pick a budgeting method that handles big, lumpy costs.</strong> Zero-based and envelope apps make you set money aside before the bill arrives. See <a href="/best-for-families">budgeting apps for families with young kids</a> or, if two of you share the bills, <a href="/budgeting-apps-for-couples">apps for couples</a>.</li>
+  </ul>
+  <ReferralCta app={monarch} compact />
+
+  <h2 id="by-state">Childcare cost by state</h2>
+  <p>Typical monthly cost of full-time care at a center, statewide median, in {CPI.latest.label} prices (rounded to the nearest $10). Source: DOL National Database of Childcare Prices, 2022 unless noted.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>State</th><th>Infant</th><th>Toddler</th><th>Preschool</th></tr></thead>
+      <tbody>
+        {names.filter(has).map((s) => (
+          <tr><th scope="row">{s}<span class="muted small">{yearNote(s)}</span></th><td>{cell(s, 0)}</td><td>{cell(s, 1)}</td><td>{cell(s, 2)}</td></tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  <p class="meta">“—” means the database has no center price for that age in that state. No recent data: {names.filter((s) => !has(s)).join(', ')}.</p>
+
+  <h2 id="faq">Questions</h2>
+  {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
+
+  <h2 id="sources">Sources and method</h2>
+  <ul class="small">
+    <li>Prices: U.S. Department of Labor, Women’s Bureau, <a href={SOURCES.ndcp} rel="nofollow">National Database of Childcare Prices</a>, State-Level Estimates and Affordability Rankings 2022 (released Nov 2024). Median weekly price of full-time care by state, provider type and age group. We use the most recent year from 2020 to 2022 with data. We downloaded the file from the <a href={SOURCES.ndcpMirror} rel="nofollow">Virginia Open Data Portal copy</a> of the DOL release on {DATA_CHECKED}.</li>
+    <li>Inflation: Bureau of Labor Statistics, <a href={SOURCES.cpi} rel="nofollow">CPI-U, day care and preschool, U.S. city average</a> (series {CPI.series}). 2022 annual average {CPI.annual[2022]}; {CPI.latest.label} {CPI.latest.value}. Pulled {DATA_CHECKED}.</li>
+    <li>Monthly = weekly × 52 ÷ 12. Annual = weekly × 52. Under 40 hours a week, the price is scaled by hours ÷ 40.</li>
+    <li>7% benchmark: HHS, <a href={SOURCES.hhs2024} rel="nofollow">2024 CCDF final rule</a>, which describes the 2016 benchmark; the <a href={SOURCES.hhs2026} rel="nofollow">2026 CCDF final rule</a> removed the federal 7% co-payment cap effective July 13, 2026.</li>
+  </ul>
+  <p>More: <a href="/best-for-families">Best budgeting apps for families</a> · <a href="/budgeting-apps-for-couples">Apps for couples</a> · <a href="/compare">Compare all apps</a></p>
+
+  <script is:inline define:vars={{ DATA: clientData, CPIA: CPI.annual, CPIL: CPI.latest }}>
+    const IDX = { infant: 0, toddler: 1, preschool: 2, schoolage: 3 };
+    const LBL = { infant: 'Infant', toddler: 'Toddler', preschool: 'Preschool', schoolage: 'School-age' };
+    const $ = (n) => '$' + Math.round(n).toLocaleString('en-US');
+    const f = document.getElementById('calc');
+    const out = document.getElementById('out');
+    function run() {
+      const st = DATA[f.state.value] || {};
+      const t = st[f.type.value];
+      const hours = Math.min(40, Math.max(5, Number(f.hours.value) || 40));
+      const income = Number(f.income.value) || 0;
+      const quote = Number(f.quote.value) || 0;
+      const kids = [...f.querySelectorAll('.kid')].map((s) => s.value).filter(Boolean);
+      let html = '';
+      let weekly = 0, missing = [];
+      const lines = [];
+      if (t) {
+        for (const k of kids) {
+          const w = t.weekly[IDX[k]];
+          if (w == null) { missing.push(LBL[k]); continue; }
+          const adj = w * (CPIL.value / CPIA[t.year]) * (hours / 40);
+          weekly += adj;
+          lines.push(`<li>${LBL[k]}: about ${$(adj * 52 / 12)} a month <span class="muted">(${t.year} median ${$(w)} a week full-time)</span></li>`);
+        }
+      }
+      const useQuote = quote > 0;
+      const month = useQuote ? quote : weekly * 52 / 12;
+      if (!useQuote && !t) {
+        out.innerHTML = `<p><strong>No ${f.type.value === 'center' ? 'center' : 'family child care'} prices for ${f.state.value} in the federal database.</strong> Try the other care type, or enter a quote.</p>`;
+        return;
+      }
+      html += `<p class="big">${useQuote ? 'Your quote' : 'Estimated cost'}: <strong>${$(month)}</strong> a month · <strong>${$(month * 12)}</strong> a year</p>`;
+      if (!useQuote) {
+        html += `<ul class="small">${lines.join('')}</ul>`;
+        if (missing.length) html += `<p class="small">No ${missing.join(', ').toLowerCase()} price for this care type in ${f.state.value}; not included.</p>`;
+        html += `<p class="meta">Statewide median for ${f.state.value}, ${hours} hours a week, in ${CPIL.label} prices.${hours < 40 ? ' Scaled down from full-time; part-time often costs more per hour.' : ''}</p>`;
+      }
+      if (income > 0 && month > 0) {
+        const pct = (month * 12) / income * 100;
+        html += `<p>That’s <strong>${pct.toFixed(1)}%</strong> of a ${$(income)} income. HHS’s affordability benchmark is 7%${pct > 7 ? `, which would be about ${$(income * 0.07 / 12)} a month` : ''}.</p>`;
+      }
+      out.innerHTML = html;
+    }
+    f.addEventListener('input', run);
+    f.addEventListener('change', run);
+    run();
+  </script>
+</Base>

@@ -3,12 +3,14 @@ import ReferralCta from '../../components/ReferralCta.astro';
 import Base from '../../layouts/Base.astro';
 import { APPS, CHECKED, CHECKED_ISO, type App } from '../../data/apps';
 import { breadcrumbs, faqLd, abs } from '../../lib';
+import { comparisonsFor } from '../../data/comparisons';
 
 export function getStaticPaths() {
   return APPS.map((app) => ({ params: { slug: app.slug }, props: { app } }));
 }
 const { app } = Astro.props as { app: App };
 const gone = app.status === 'discontinued';
+const vs = comparisonsFor(app.slug);
 const shortName = app.name.replace(/ \(.*\)$/, '');
 const sync = app.bankSync === 'n/a' ? null : app.bankSync;
 const syncText: Record<string, string> = {
@@ -27,6 +29,7 @@ const faq = gone
       ...(sync ? [{ q: `Does ${shortName} connect to my bank?`, a: syncText[sync] }] : []),
       ...(app.sharing ? [{ q: `Can I share ${shortName} with my partner?`, a: app.sharing }] : []),
       ...(app.platforms.length ? [{ q: `What devices does ${shortName} work on?`, a: `${app.platforms.join(', ')}.` }] : []),
+      ...(app.faqExtra ?? []),
     ];
 const description = gone
   ? `${shortName} has been discontinued. What happened, and shared-budget alternatives for couples and families.`
@@ -52,7 +55,7 @@ const jsonLd = [
   faqLd(faq),
 ];
 ---
-<Base title={gone ? `${shortName} (discontinued)` : `${shortName} review: pricing, pros and cons (${CHECKED})`} description={description} jsonLd={jsonLd}>
+<Base title={gone ? `${shortName} (discontinued)` : app.title ?? `${shortName} review: pricing, pros and cons (${CHECKED})`} description={description} jsonLd={jsonLd}>
   <p class="meta"><a href="/compare">All apps</a> › {shortName}</p>
   <h1>{shortName}{gone && ' (discontinued)'}</h1>
   <p class="lede">{app.summary}</p>
@@ -89,6 +92,8 @@ const jsonLd = [
       <ul>{app.cons.map((p) => <li>{p}</li>)}</ul>
     </>
   )}
+
+  {vs.length > 0 && <p>Compare: {vs.map((c, i) => <>{i > 0 && ' · '}<a href={c.path}>{c.label}</a></>)}</p>}
 
   <h2>Questions</h2>
   {faq.map((f) => (<><h3>{f.q}</h3><p>{f.a}</p></>))}
