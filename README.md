@@ -42,6 +42,8 @@ To roll back, either:
   ```
 - Wrangler: `npx wrangler rollback d6f2d7a5-e73c-4051-80db-56b66e0e1954 --name appsforbudgeting`
 
+Oct 27 2026, 11:46 PM PT: calculator + SEO batch 2 live as version `dd3aad57-8fbc-48ac-aa25-606300bf47f4` (deployment `0ad0a107-25a1-4fdf-b510-ec91f4ca5488`, git `2e379ec`); previous version `b326e587-fe24-428d-a422-6023c7276d7d`.
+
 v1 went live Oct 22 2026, 10:07 PM PT as version `5583cba7-00a1-4962-a77e-da7f152b998b` (deployment `3ac064e6-914b-4e72-9f12-881624cc86d9`, git `ebd64f0`+).
 
 Note the old version also served `/.git/*` publicly; rolling back brings that back.
